@@ -51,6 +51,7 @@ Maquina *cria_maquina(INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip = 0;
+
   m->prog = p;
   return m;
 }
@@ -65,6 +66,7 @@ void destroi_maquina(Maquina *m) {
 #define exec (&m->exec)//this new
            //(&((*m).exec))
 #define prg (m->prog)
+#define rbp (m->rbp)//this new3
 
 void exec_maquina(Maquina *m, int n) {
   int i;
@@ -121,10 +123,18 @@ void exec_maquina(Maquina *m, int n) {
 	  empilha(exec, ip);
 	  ip = arg;
 	  continue;
+	case SAVE://this new3
+	  empilha(exec, rbp);
+	  ip = arg;
+	  break;
 	case RET:
 	  //<NOVO COMANDO>
 	  ip = desempilha(exec);
 	  break;
+	case REST://this new3
+	  exec = rbp;
+	  ip = desempilha(exec);
+	  continue;
 	case EQ:
 	  if (desempilha(pil) == desempilha(pil))
 		empilha(pil, 1);
@@ -172,14 +182,14 @@ void exec_maquina(Maquina *m, int n) {
 	case PRN:
 	  printf("%d\n", desempilha(pil));
 	  break;
-	//case STL: // Parecido com o STO // this new
-	  //exec[arg+/*<RBP>*/] = desempilha(pil);
-	//case RCE: // Parecido com o RCL // this new2
-	  //empilha(pil,m->Mem[exec[arg+/*<RBP>*/]]);
+	case STL: // Parecido com o STO //this new
+	  exec[arg+rbp] = desempilha(pil);//this new3
+	case RCE: // Parecido com o RCL //this new2
+	  empilha(pil,m->Mem[exec[arg+rbp]]);//this new3
 	}
 	D(imprime(pil,5));
 	D(puts("\n"));
-	printf("%d\n this new", ip);//this new
+	//printf("%d\n this new", ip);//this new
 	ip++;
   }
 }
