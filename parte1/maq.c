@@ -132,7 +132,7 @@ void exec_maquina(Maquina *m, int n) {
 	  ip = desempilha(exec);
 	  break;
 	case REST://this new3
-	  exec = rbp;
+	  empilha(exec, rbp);
 	  ip = desempilha(exec);
 	  continue;
 	case EQ:
@@ -183,9 +183,12 @@ void exec_maquina(Maquina *m, int n) {
 	  printf("%d\n", desempilha(pil));
 	  break;
 	case STL: // Parecido com o STO //this new
-	  exec[arg+rbp] = desempilha(pil);//this new3
+	  m->Mem[arg+rbp] = desempilha(pil);
+	  empilha(exec, m->Mem[arg]);
+	  //exec[arg+rbp] = desempilha(pil);//this new3
 	case RCE: // Parecido com o RCL //this new2
-	  empilha(pil,m->Mem[exec[arg+rbp]]);//this new3
+	  rbp += ip;//exec[arg+rbp];
+	  empilha(pil, m->Mem[rbp]);//this new3
 	}
 	D(imprime(pil,5));
 	D(puts("\n"));
