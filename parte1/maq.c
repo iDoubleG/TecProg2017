@@ -19,8 +19,8 @@ char *CODES[] = {
   "JIF",
   "CALL",
   "RET",
-  "STL",
-  "RCE",
+  "STL",//this new5
+  "RCE",//this new5
   "EQ",
   "GT",
   "GE",
@@ -31,8 +31,8 @@ char *CODES[] = {
   "RCL",
   "END",
   "PRN",
-  "ALC",
-  "FRE"
+  "ALC",//this new5
+  "FRE" //this new5
 };
 #else
 #  define D(X)
@@ -120,14 +120,14 @@ void exec_maquina(Maquina *m, int n) {
 	  }
 	  break;
 	case CALL:
-	  empilha(exec, rbp);
+	  empilha(exec, rbp);//this new5
 	  empilha(exec, ip);
-	  rbp = exec->topo -1;
+	  rbp = exec->topo -1;//this new5
 	  ip = arg;
 	  continue;
 	case RET:
-	  ip = desempilha(exec);//this new5
-	  rbp = desempilha(exec);
+	  ip = desempilha(exec);
+	  rbp = desempilha(exec);//this new5
 	  break;
 	case STL://this new5
 	  exec->val[arg+rbp] = desempilha(pil);
@@ -182,13 +182,10 @@ void exec_maquina(Maquina *m, int n) {
 	case PRN:
 	  printf("%d\n", desempilha(pil));
 	  break;
-	/*case SAVE:
-	  rbp = exec->topo;
-	  break;*/
-	case ALC:
+	case ALC://this new5
 	  exec->topo += arg;
 	  break;
-	case FRE:
+	case FRE://this new5
 	  exec->topo -= arg;
 	  break;
 	}

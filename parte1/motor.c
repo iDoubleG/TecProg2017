@@ -44,7 +44,7 @@ INSTR fibonacci[] =  {
 };
 
 INSTR fat[] = {
-    {PUSH, 10},  // 0
+    {PUSH, 3},  // 0
     {CALL, 4},  // 1
     {PRN,  0},  // 2
     {END,  0},  // 3

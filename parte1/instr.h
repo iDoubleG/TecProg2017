@@ -12,8 +12,8 @@ typedef enum {
   JIF,
   CALL,
   RET,
-  STL,//this new
-  RCE,//this new
+  STL,//this new5
+  RCE,//this new5
   EQ,
   GT,
   GE,
