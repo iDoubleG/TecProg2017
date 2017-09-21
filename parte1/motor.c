@@ -44,7 +44,7 @@ INSTR fibonacci[] =  {
 };
 
 INSTR fat[] = {
-    {PUSH, 8},  // 0
+    {PUSH, 10},  // 0
     {CALL, 4},  // 1
     {PRN,  0},  // 2
     {END,  0},  // 3
@@ -79,7 +79,11 @@ int main(int ac, char **av) {
   exec_maquina(maq, 10);
   puts("---");
   exec_maquina(maq2, 10000);
+  puts("-----");
+  exec_maquina(maq3, 1000);
+  puts("-----");
   destroi_maquina(maq);
   destroi_maquina(maq2);
+  destroi_maquina(maq3);
   return 0;
 }

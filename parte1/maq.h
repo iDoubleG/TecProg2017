@@ -8,7 +8,7 @@ typedef struct {
   OPERANDO Mem[MAXMEM];
   INSTR *prog;
   int ip;
-  int rbp;
+  int rbp;//this new4
 } Maquina;
 
 Maquina *cria_maquina(INSTR *p);

@@ -12,8 +12,8 @@ typedef enum {
   JIF,
   CALL,
   RET,
-  STS,
-  RCS,
+  STL,//this new
+  RCE,//this new
   EQ,
   GT,
   GE,
@@ -24,10 +24,8 @@ typedef enum {
   RCL,
   END,
   PRN,
-  STL,//this new
-  RCE,//this new
-  SAVE,//this new2 salva o rbp
-  REST,//this new2 restaura o rbp
+  ALC,//this new5
+  FRE,//this new5
 } OpCode;
 
 /* Tipos dos operandos */

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "maq.h"
 
-#//define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #  define D(X) X
@@ -19,8 +19,8 @@ char *CODES[] = {
   "JIF",
   "CALL",
   "RET",
-  "STS",
-  "RCS",
+  "STL",
+  "RCE",
   "EQ",
   "GT",
   "GE",
@@ -31,8 +31,8 @@ char *CODES[] = {
   "RCL",
   "END",
   "PRN",
-  "STL",
-  "RCE"
+  "ALC",
+  "FRE"
 };
 #else
 #  define D(X)
@@ -51,7 +51,7 @@ Maquina *cria_maquina(INSTR *p) {
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip = 0;
-
+  m->rbp = 0;
   m->prog = p;
   return m;
 }
@@ -120,21 +120,21 @@ void exec_maquina(Maquina *m, int n) {
 	  }
 	  break;
 	case CALL:
+	  empilha(exec, rbp);
 	  empilha(exec, ip);
+	  rbp = exec->topo -1;
 	  ip = arg;
 	  continue;
-	case SAVE://this new3
-	  empilha(exec, rbp);
-	  ip = arg;
-	  break;
 	case RET:
-	  //<NOVO COMANDO>
-	  ip = desempilha(exec);
+	  ip = desempilha(exec);//this new5
+	  rbp = desempilha(exec);
 	  break;
-	case REST://this new3
-	  empilha(exec, rbp);
-	  ip = desempilha(exec);
-	  continue;
+	case STL://this new5
+	  exec->val[arg+rbp] = desempilha(pil);
+	  break;
+	case RCE://this new5
+	  empilha(pil, exec->val[rbp+arg]);
+	  break;
 	case EQ:
 	  if (desempilha(pil) == desempilha(pil))
 		empilha(pil, 1);
@@ -182,17 +182,19 @@ void exec_maquina(Maquina *m, int n) {
 	case PRN:
 	  printf("%d\n", desempilha(pil));
 	  break;
-	case STL: // Parecido com o STO //this new
-	  m->Mem[arg+rbp] = desempilha(pil);
-	  empilha(exec, m->Mem[arg]);
-	  //exec[arg+rbp] = desempilha(pil);//this new3
-	case RCE: // Parecido com o RCL //this new2
-	  rbp += ip;//exec[arg+rbp];
-	  empilha(pil, m->Mem[rbp]);//this new3
+	/*case SAVE:
+	  rbp = exec->topo;
+	  break;*/
+	case ALC:
+	  exec->topo += arg;
+	  break;
+	case FRE:
+	  exec->topo -= arg;
+	  break;
 	}
 	D(imprime(pil,5));
+	D(imprime(exec, 10));
 	D(puts("\n"));
-	//printf("%d\n this new", ip);//this new
 	ip++;
   }
 }
