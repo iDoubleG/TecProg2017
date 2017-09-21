@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-Lê, na entrada padrão, um programa na linguagem de montagem da máquina
+Le, na entrada padrao, um programa na linguagem de montagem da maquina
 virtual e retorna um programa em C que executa este programa.
 
 Uso:
@@ -13,6 +13,9 @@ l = stdin.readline()
 ip = 0
 
 tabsim = {}
+
+print("#include <stdio.h>")
+print("#include \"maq.h\"\n")
 
 print("INSTR prog[] = {")
 while l:
@@ -36,10 +39,19 @@ while l:
     if op != "":
         print("  {%s, %s},"%(op,arg))
     else:
-        print()
+        print("")
     l = stdin.readline()
     ip += 1
-print("};")
+print("};\n")
+
+print("int main(int ac, char **av) {")
+print("  Maquina *maq = cria_maquina(prog);")
+print("  exec_maquina(maq, 10000);")
+print("  destroi_maquina(maq);")
+print("  return 0;")
+print("}")
+
+
     
 
 
