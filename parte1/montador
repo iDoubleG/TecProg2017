@@ -14,8 +14,10 @@ ip = 0
 
 tabsim = {}
 
-print("#include <stdio.h>")
-print("#include \"maq.h\"\n")
+
+print("#include <stdio.h>")              # adiciona as bibliotecas
+print("#include \"maq.h\"\n")            # no arquivo .c
+
 
 print("INSTR prog[] = {")
 while l:
@@ -44,16 +46,13 @@ while l:
     ip += 1
 print("};\n")
 
+
 print("int main(int ac, char **av) {")
-print("  Maquina *maq = cria_maquina(prog);")
-print("  exec_maquina(maq, 10000);")
-print("  destroi_maquina(maq);")
-print("  return 0;")
+print("  Maquina *maq = cria_maquina(prog);")     # Adiciona a main no arquivo .c,
+print("  exec_maquina(maq, 10000);")              # que cria, executa e destroi a
+print("  destroi_maquina(maq);")                  # maquina, referente ao conjunto 
+print("  return 0;")                              # de instruções.
 print("}")
-
-
-    
-
 
 
 
