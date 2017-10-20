@@ -41,7 +41,7 @@ typedef enum {
 } Tipo;
 
 /* Tipo de terreno */
-typedef enum {
+typedef enum {//this new
   RUELA,
   ESTRADA,
   AREIA,
@@ -58,7 +58,7 @@ typedef struct {
   short int ocupado;
 } Celula;
 
-typedef struct {
+typedef struct {//this new
   int 
   Celula mapa[MAP_SIZE * 2][MAP_SIZE]
 
@@ -71,7 +71,7 @@ typedef struct {
    mas fique livre para fazer de forma diferente */
 
 /* Operando */
-typedef struct {
+typedef struct {//this new
   Tipo t;
   union {
 	int n;

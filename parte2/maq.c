@@ -32,7 +32,9 @@ char *CODES[] = {
   "END",
   "PRN",
   "ALC",/*Funcao auxiliar pala alocacao de frames na pilha de excecucao*/
-  "FRE" /*Funcao auxiliar para liberacao de frames na pilha de excecucao*/
+  "FRE",/*Funcao auxiliar para liberacao de frames na pilha de excecucao*/
+  "ATR",//this new
+  "SIS" //this new
 };
 #else
 #  define D(X)
@@ -52,6 +54,7 @@ Maquina *cria_maquina(INSTR *p) {
   if (!m) Fatal("Memória insuficiente",4);
   m->ip = 0;
   m->rbp = 0;
+  m->ncristais = 0;//this new
   m->prog = p;
   return m;
 }
@@ -67,10 +70,10 @@ void destroi_maquina(Maquina *m) {
 #define prg (m->prog)
 #define rbp (m->rbp)/*Macro para referencia ao rbp*/
 
-void exec_maquina(Maquina *m, int n) {//n vai virar o timestep
+void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
   int i;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < timestep; i++) {
 	OpCode   opc = prg[ip].instr;
 	OPERANDO arg = prg[ip].op;
 
@@ -220,11 +223,11 @@ void exec_maquina(Maquina *m, int n) {//n vai virar o timestep
 				armazenadas as variaveis locais*/
 	  exec->topo -= arg;
 	  break;
-	case ATR:
+	case ATR://this new
 	  tmp = desempilha(pil);
 	  empilha(pil, tmp->arg);
 	  break;
-	case SIS:
+	case SIS://this new
 	  empilha(arg);
 
 	}

@@ -1,9 +1,9 @@
 ﻿		Maquina virtual → adaptacao para chamadas ao sistema de implementacao do estado
 
-		Definir uma struct com dois campos: indicador de tipo; indicador de valor
+	v	Definir uma struct com dois campos: indicador de tipo; indicador de valor
 
 		Instrucoes novas p/ chamadas do sistema e consultas especiais
-		Maquina virtual → - Posicao: par de valores (x,y) p/posicao do robo na arena
+	v	Maquina virtual → - Posicao: par de valores (x,y) p/posicao do robo na arena
 				        - Cristais: no de cristais carregados pelo robo
 				        - Itens opcionais: vida; energia; combustivel… (only chamadas ao sistema)
 
@@ -20,10 +20,10 @@
 			         - Tempo transcorrido
 
 		Metodos
-			- Costrutor
-			- Atualiza(): move exercitos e avanca um timestep
-			- InsereExercito(): inclue novo exercito
-			- RemoveExercito() - retira um exercito derrotado
+	v		- Costrutor
+	v		- Atualiza(): move exercitos e avanca um timestep
+	v		- InsereExercito(): inclue novo exercito
+	v		- RemoveExercito() - retira um exercito derrotado
 			- Sistema(int op): chamada por uma instrucao especial da maquina virtual. Argumento: identificacao do tipo de chamada
 
 		Chamadas ao sistema (arena)
@@ -37,7 +37,7 @@
 	v		- Construcao da matriz e sua inicializacao
 			- Registro de maquinas virtuais: Na -Arena- um vetor de ponteiros p/ maq. virtuais tam. 100
 				Deve receber o endereco de uma maq. virtual e copialo na primeira posicao livre deste vetor
-			- Escalonador: funcao que percorre o vetor de maquinas e manda cada uma executar um numero pequeno (50) de instrucoes virtuais, retornando a primeira apos percorrer o vetor todo.
+	v		- Escalonador: funcao que percorre o vetor de maquinas e manda cada uma executar um numero pequeno (50) de instrucoes virtuais, retornando a primeira apos percorrer o vetor todo.
 				Deve receber um parametro dizendo quantas rodadas serao executadas
 			- Modificacoes na Maquina Virtual segundo o item 3.1.1
 			- Teste(?) pro role todo
