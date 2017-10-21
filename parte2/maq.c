@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "maq.h"
+#include "arena.h"
 
 //#define DEBUG
 
@@ -55,6 +56,8 @@ Maquina *cria_maquina(INSTR *p) {
   m->ip = 0;
   m->rbp = 0;
   m->ncristais = 0;//this new
+  m->vida = 1;
+  m->matou = 0;
   m->prog = p;
   return m;
 }
@@ -84,18 +87,19 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 	  OPERANDO op1;//this new
 	  OPERANDO op2;//this new
 	  OPERANDO res;//this new
-	case PUSH:
+	  Celula cel;
+	case PUSH:/*Nao necessita verificacao de tipo; empilha o obejto do topo*/
 	  empilha(pil, arg);
 	  break;
-	case POP:
+	case POP:/*Nao necessita verificacao de tipo; retira o objeto do topo*/
 	  desempilha(pil);
 	  break;
-	case DUP:
+	case DUP:/*Nao necessita de verificacao de tipo; duplica o objeto do topo*/
 	  tmp = desempilha(pil);
 	  empilha(pil, tmp);
 	  empilha(pil, tmp);
 	  break;
-	case ADD://this new
+	case ADD:/*Verifica o tipo dos operandos e os soma na NPR*/
 	  op1 = desempilha(pil);
 	  op2 = desempilha(pil);
 
@@ -105,7 +109,7 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 		empilha(pil, res);
 	  }
 	  break;
-	case SUB://this new
+	case SUB:/*Verifica o tipo dos operandos e os subtrai na NPR*/
 	  op1 = desempilha(pil);
 	  op2 = desempilha(pil);
 
@@ -115,7 +119,7 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 		empilha(pil, res);
 	  }
 	  break;
-	case MUL://this new
+	case MUL:/*Verifica o tipo dos operandos e os multiplica na NPR*/
 	  op1 = desempilha(pil);
 	  op2 = desempilha(pil);
 
@@ -125,7 +129,7 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 		empilha(pil, res);
 	  }
 	  break;
-	case DIV://this new
+	case DIV:/*Verifica o tipo dos operandos e os divide na NPR*/
 	  op1 = desempilha(pil);
 	  op2 = desempilha(pil);
 
@@ -135,19 +139,28 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 		empilha(pil, res);
 	  }
 	  break;
-	case JMP:
-	  ip = arg;
+	case JMP:/*Verifica o tipo do argumento e da o jump para o argumento*/
+	  if (arg.t == NUM)
+	  	ip = arg.val.n;
 	  continue;
-	case JIT:
-	  if (desempilha(pil) != 0) {
-		ip = arg;
-		continue;
+	case JIT:/*Verifica o tipo do topo da pilha e da o jump para o argumento 
+				caso verdadeiro*/
+	  tmp = desempilha(pil);
+	  if (tmp.t == && arg.t == NUM) {//perguntar qual o tipo de tmp nesse caso
+		if (tmp != 0) {
+		  ip = arg.val.n;
+		  continue;
+		}
 	  }
 	  break;
-	case JIF:
-	  if (desempilha(pil) == 0) {
-		ip = arg;
-		continue;
+	case JIF:/*Verifica o tipo do topo da pilha e da o jump para o argumento 
+				caso falso*/
+	  tmp = desempilha(pil);
+	  if (tmp.t == && arg.t == NUM) {//perguntar tambem
+	    if (desempilha(pil) == 0) {
+		  ip = arg;
+		  continue;
+		}
 	  }
 	  break;
 	case CALL:
@@ -163,7 +176,9 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 								de excecucao, apos desempilhar ip e rbp.*/
 	  break;
 	case STL:/*Instrucao armazena na pilha de excecucao a variavel local.*/
-	  exec->val[arg+rbp] = desempilha(pil);
+	  tmp = desempilha(pil);
+	  if (tmp.t == VAR && arg.t == NUM)
+	    exec->val[arg.val.n+rbp] = tmp.var.v;
 	  break;
 	case RCE:/*Instrucao recupera a variavel local da pilha de excecucao.*/
 	  empilha(pil, exec->val[rbp+arg]);
@@ -224,8 +239,27 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 	  exec->topo -= arg;
 	  break;
 	case ATR://this new
-	  tmp = desempilha(pil);
-	  empilha(pil, tmp->arg);
+	  cel = desempilha(pil);
+	  switch(arg) {
+	  	case 0:
+	  		empilha(pil, cel.terreno)
+	  		break;
+	  	case 1:
+	  		empilha(pil, cel.cristais)
+	  		break;
+	  	case 2:
+	  		empilha(pil, cel.ocupado)
+	  		break;
+	  	case 3:
+	  		empilha(pil, cel.pos[0])
+	  		break;
+	  	case 4:
+	  		empilha(pil, cel.pos[1])
+	  		break;
+	  	case 5:
+	  		empilha(pil, cel.base)
+	  		break;
+	  }
 	  break;
 	case SIS://this new
 	  empilha(arg);

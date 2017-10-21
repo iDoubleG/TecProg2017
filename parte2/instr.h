@@ -46,23 +46,10 @@ typedef enum {//this new
   ESTRADA,
   AREIA,
   AGUA,
-  BOMBA,
-  BASE
+  ARMADILHA,
+  BASE,
+  NADA
 } Terreno;
-
-
-/* Célula */
-typedef struct {
-  Terreno terreno;
-  short int cristais;
-  short int ocupado;
-} Celula;
-
-typedef struct {//this new
-  int 
-  Celula mapa[MAP_SIZE * 2][MAP_SIZE]
-
-}
 
 /* Alternativamente, Celula pode ser implementada como um vetor de ints
    ou short ints, isso torna a implementação de ATR mais fácil */
