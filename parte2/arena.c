@@ -12,16 +12,20 @@ flag -lm (math.h precisa)
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include "maq.h"
 #include "arena.h"
+
 #define GRID_TAM 1000
 #define EXERCITO 500
 #define TIMESTEP 50
-#define arenaG arena.grid[i][j].terreno
-#define arenaGR arena.grid[random11][random12].terreno
+#define arenaG arena.grid[i][j]
+#define arenaGR1 arena.grid[random11][random12]
+#define arenaGR2 arena.grid[random21][random22]
 
 typedef struct {
 	Celula grid[GRID_TAM*2][GRID_TAM];
 	int ExercitosAtivos[EXERCITO];
+	int tempoCorrido;
 } Arena;
 
 
@@ -31,6 +35,8 @@ void InsereArena() {
 	int timesBases;
 	int random11, random12;
 	int comparador;
+	int cristaiss;
+	int cristaissBase;
 
 	Arena arena;
 
@@ -44,11 +50,11 @@ void InsereArena() {
       		}
       		else {
 				int random1 = rand() % 100;
-				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaT.posi = {i, j};}
-				else if (random1 < 25) {arenaG.terreno = AGUA; arenaT.posi = {i, j};}
-				else if (random1 < 45) {arenaG.terreno = AREIA; arenaT.posi = {i, j};}
-				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaT.posi = {i, j};}
-				else {arenaG.terreno = RUELA; arenaT.posi = {i, j};}
+				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.posi = {i, j};}
+				else if (random1 < 25) {arenaG.terreno = AGUA; arenaG.posi = {i, j};}
+				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.posi = {i, j};}
+				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.posi = {i, j};}
+				else {arenaG.terreno = RUELA; arenaG.posi = {i, j};}
       		}
    		}
 	}
@@ -59,9 +65,21 @@ void InsereArena() {
 		random11 = rand() % (GRID_TAM - 2) + 1;
 		random12 = rand() % (tamanhoY - 2) + 1;
 
-		if (arenaGR.terreno != NADA && arenaGR.terreno != BASE) {
-			arenaGR.terreno = BASE;
+		if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
+			arenaGR1.terreno = BASE;
 			timesBases--;
+		}
+	}
+
+	cristaissBase = cristaiss;
+
+	while (cristaissBase > 0) {
+		random21 = rand() % (GRID_TAM - 2) + 1;
+		random22 = rand() % (tamanhoY - 2) + 1;
+
+		if (arenaGR.terreno != NADA && arenaGR.terreno != BASE && arenaGR.cristais == 0) {
+			arenaGR.cristais = 1;
+			cristaissBase--;
 		}
 	}
 }
