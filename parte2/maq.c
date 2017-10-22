@@ -1,4 +1,4 @@
-#include <stdio.h>
+	#include <stdio.h>
 #include <stdlib.h>
 #include "maq.h"
 #include "arena.h"
@@ -35,7 +35,10 @@ char *CODES[] = {
   "ALC",/*Funcao auxiliar pala alocacao de frames na pilha de excecucao*/
   "FRE",/*Funcao auxiliar para liberacao de frames na pilha de excecucao*/
   "ATR",//this new
-  "SIS" //this new
+  "SISM" //this new
+  "SISA"
+  "SISR"
+  "SISD"
 };
 #else
 #  define D(X)
@@ -72,12 +75,15 @@ void destroi_maquina(Maquina *m) {
 #define exec (&m->exec)/*Macro para referencia a pilha de excecucao*/
 #define prg (m->prog)
 #define rbp (m->rbp)/*Macro para referencia ao rbp*/
+#define maqi (m->pos[0])/*Macro para referencia a posição i da maquina*/
+#define maqj (m->pos[1])/*Macro para referencia a posição j da maquina*/
+#define contador_cristais (m->ncristais)
 
 void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
   int i;
 
   for (i = 0; i < timestep; i++) {
-	OpCode   opc = prg[ip].instr;
+	OpCode   opc = prg[ip].instr;-
 	OPERANDO arg = prg[ip].op;
 
 	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
@@ -261,9 +267,46 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 	  		break;
 	  }
 	  break;
-	case SIS://this new
-	  empilha(arg);
-
+	case SISM://System call para mover
+	  tmp = Sistema(arg, *m);
+	  if(tmp == 1) {
+	  	switch(arg) {
+			case 0:
+				maqi += -2;
+			case 1:
+				maqi += -1;
+				maqj += 1;
+			case 2:
+				maqi += 1;
+				maqj += 1;
+			case 3:
+				maqi += 2;
+			case 4:
+				maqi += 1;
+				maqj += -1;
+			case 5:
+				maqi += -1;
+				maqj += -1;
+		}
+	  break;
+	case SISA://System call para atacar
+	  tmp = Sistema(arg+10, *m);
+	  if(tmp == 1){
+		m->matou += 1;
+	  }
+	  break;
+	case SISR://System call para recolher os cristais 
+	  tmp = Sistema(arg+20, *m);
+	  if(tmp > 0){
+		contador_cristais += tmp;
+	  }
+	  break;
+	case SISD://System call para depositar os cristais
+	  tmp = Sistema(arg+30, *m);
+	  if(tmp == 1 && contador_cristais > 0) {
+		contador_cristais = 0;
+	  }
+	  break;
 	}
 	D(imprime(pil,5));
 	D(imprime(exec, 10));

@@ -29,7 +29,10 @@ typedef enum {
   ALC,/*Declaracao da variavel FRE, ver comentario em maq.c*/
   FRE,/*Declaracao da variavel FRE, ver comentario em maq.c*/
   ATR,//this new
-  SIS	//this new						/* chamada de sistema */
+  SISM	//this new						/* chamada de sistema */
+  SISA
+  SISR
+  SISD
 } OpCode;
 
 /* Tipos dos operandos */
