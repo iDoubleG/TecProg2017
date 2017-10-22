@@ -1,4 +1,4 @@
-	#include <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "maq.h"
 #include "arena.h"
@@ -34,11 +34,11 @@ char *CODES[] = {
   "PRN",
   "ALC",/*Funcao auxiliar pala alocacao de frames na pilha de excecucao*/
   "FRE",/*Funcao auxiliar para liberacao de frames na pilha de excecucao*/
-  "ATR",//this new
-  "SISM" //this new
-  "SISA"
-  "SISR"
-  "SISD"
+  "ATR",/*Nova instrucao para receber um atributo desejado de uma celula*/
+  "SISM",/*Nova instrucao que faz uma systemcall para mover a maquina*/
+  "SISA",/*Nova instrucao que faz uma systemcall para a maquina atacar*/
+  "SISR",/*Nova instrucao que faz uma systemcall para recolher cristais*/
+  "SISD" /*Nova instrucao que faz uma systemcall para depositar cristais*/
 };
 #else
 #  define D(X)
@@ -53,19 +53,19 @@ static void Fatal(char *msg, int cod) {
   exit(cod);
 }
 
-Maquina *cria_maquina(INSTR *p) {
+Maquina *cria_maquina(INSTR *p) {/*Inicializa a maquina e seus atributos*/
   Maquina *m = (Maquina*)malloc(sizeof(Maquina));
   if (!m) Fatal("Memória insuficiente",4);
   m->ip = 0;
   m->rbp = 0;
-  m->ncristais = 0;//this new
+  m->ncristais = 0;
   m->vida = 1;
   m->matou = 0;
   m->prog = p;
   return m;
 }
 
-void destroi_maquina(Maquina *m) {
+void destroi_maquina(Maquina *m) {/*Quando morrer, destroi a maquina*/
   free(m);
 }
 
@@ -79,21 +79,21 @@ void destroi_maquina(Maquina *m) {
 #define maqj (m->pos[1])/*Macro para referencia a posição j da maquina*/
 #define contador_cristais (m->ncristais)
 
-void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
+void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
+												maquina*/
   int i;
 
   for (i = 0; i < timestep; i++) {
-	OpCode   opc = prg[ip].instr;-
+	OpCode   opc = prg[ip].instr;
 	OPERANDO arg = prg[ip].op;
 
 	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
 
 	switch (opc) {
 	  OPERANDO tmp;
-	  OPERANDO op1;//this new
-	  OPERANDO op2;//this new
-	  OPERANDO res;//this new
-	  Celula cel;
+	  OPERANDO op1;
+	  OPERANDO op2;
+	  OPERANDO res;
 	case PUSH:/*Nao necessita verificacao de tipo; empilha o obejto do topo*/
 	  empilha(pil, arg);
 	  break;
@@ -149,122 +149,197 @@ void exec_maquina(Maquina *m, int timestep) {//n vai virar o timestep
 	  if (arg.t == NUM)
 	  	ip = arg.val.n;
 	  continue;
-	case JIT:/*Verifica o tipo do topo da pilha e da o jump para o argumento 
+	case JIT:/*Verifica o tipo do topo da pilha e da o jump para o argumento
 				caso verdadeiro*/
 	  tmp = desempilha(pil);
-	  if (tmp.t == && arg.t == NUM) {//perguntar qual o tipo de tmp nesse caso
-		if (tmp != 0) {
+
+	  if (tmp.t == ACAO && arg.t == NUM) {//perguntar qual o tipo de tmp nesse caso
+		if (tmp.val.ac != 0) {
 		  ip = arg.val.n;
 		  continue;
 		}
 	  }
 	  break;
-	case JIF:/*Verifica o tipo do topo da pilha e da o jump para o argumento 
+	case JIF:/*Verifica o tipo do topo da pilha e da o jump para o argumento
 				caso falso*/
 	  tmp = desempilha(pil);
-	  if (tmp.t == && arg.t == NUM) {//perguntar tambem
-	    if (desempilha(pil) == 0) {
-		  ip = arg;
+
+	  if (tmp.t == ACAO && arg.t == NUM) {//perguntar tambem
+	    if (tmp == 0) {
+		  ip = arg.val.n;
 		  continue;
 		}
 	  }
 	  break;
-	case CALL:
-	  empilha(exec, rbp);/*Empilha na pilha de excecucao o valor de rbp*/
-	  empilha(exec, ip);
-	  rbp = exec->topo -1;/*Armazena em rbp o valor do topo apos empilhar
-							rbp e ip*/
-	  ip = arg;
+	case CALL:/*Empilha na pilha de excecucao o valor de rbp e de ip atuais e
+				da os novos valores de rbp e de ip a serem usados na pilha de
+				excecucao*/
+	  if (arg.t == NUM) {
+	    empilha(exec, rbp);
+	    empilha(exec, ip);
+	    rbp = exec->topo -1;
+	    ip = arg.val.n;
+	  }
 	  continue;
-	case RET:
-	  ip = desempilha(exec);
-	  rbp = desempilha(exec);/*Retorna ao rbp a posicao do antigo topo da pilha
-								de excecucao, apos desempilhar ip e rbp.*/
+	case RET:/*Verifica o tipo dos objetos no topo da pilha de excecucao e
+				retorna aos ip e rbp antigos*/
+	  op1 = desempilha(exec);
+	  op2 = desempilha(exec);
+
+	  if (op1.t == NUM && op2.t == NUM) {
+	    ip = op1.val.n;
+	    rbp = op2.val.n;
+	  }
 	  break;
-	case STL:/*Instrucao armazena na pilha de excecucao a variavel local.*/
-	  tmp = desempilha(pil);
+	case STL:/*Verifica o tipo do topo da pilha e armazena na pilha de
+				excecucao a variavel local.*/
+	  tmp = desempilha(pil);//perguntar o tipo
+
 	  if (tmp.t == VAR && arg.t == NUM)
-	    exec->val[arg.val.n+rbp] = tmp.var.v;
+	    exec->val[rbp+arg.val.n] = tmp.var.v;
 	  break;
-	case RCE:/*Instrucao recupera a variavel local da pilha de excecucao.*/
-	  empilha(pil, exec->val[rbp+arg]);
+	case RCE:/*Verifica o tipo do topo na pilha de excecucao e recupera a
+				variavel local da pilha de excecucao.*/
+	  if (arg.t == NUM) {//perguntar o tipo
+	    tmp = exec->val[rbp+arg.val.n];
+
+	    if (tmp.t == VAR)
+	      empilha(pil, tmp);
+	  }
 	  break;
-	case EQ:
-	  if (desempilha(pil) == desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case EQ:/*Desempilha os 2 objetos do topo, verifica a igualdade entre eles
+			e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) == desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
 	  break;
-	case GT:
-	  if (desempilha(pil) < desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case GT:/*Desempilha os 2 objetos do topo, verifica se um e estritamente
+				maior que o outro e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) < desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
 	  break;
-	case GE:
-	  if (desempilha(pil) <= desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case GE:/*Desempilha os 2 objetos do topo, verifica se um e maior ou igual
+				ao outro e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) <= desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
 	  break;
-	case LT:
-	  if (desempilha(pil) > desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case LT:/*Desempilha os 2 objetos do topo, verifica se um e estritamente
+				menor que o outro e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) > desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
 	  break;
-	case LE:
-	  if (desempilha(pil) >= desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case LE:/*Desempilha os 2 objetos do topo, verifica se um e menor ou igual
+				ao outro e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) >= desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
+	case NE:/*Desempilha os 2 objetos do topo, verifica a nao igualdade entre
+				eles e empilha um operando verdadeiro ou falso*/
+	  if (desempilha(pil) != desempilha(pil)) {
+	  	res.t = NUM;
+	  	res.val.n = 1;
+	  	empilha(pil, res);
+	  }
+	  else {
+	  	res.t = NUM;
+	  	res.val.n = 0;
+	  	empilha(pil, res);
+	  }
 	  break;
-	case NE:
-	  if (desempilha(pil) != desempilha(pil))
-		empilha(pil, 1);
-	  else
-		empilha(pil, 0);
+	case STO:/*Armazena no vetor de memoria o objeto no topo da pilha*/
+	  if (arg.t == NUM)
+	    m->Mem[arg] = desempilha(pil);
 	  break;
-	case STO:
-	  m->Mem[arg] = desempilha(pil);
+	case RCL:/*Empilha um objeto da memoria*/
+	  if (arg.t == NUM)
+	  	empilha(pil,m->Mem[arg]);
 	  break;
-	case RCL:
-	  empilha(pil,m->Mem[arg]);
-	  break;
-	case END:
+	case END:/*Encerra a excecucao das instrucoes*/
 	  return;
-	case PRN:
-	  printf("%d\n", desempilha(pil));
+	case PRN:/*Verifica o tipo do objeto no topo da pilha e imprime o valor do
+				topo da pilha e desempilha o topo, nao funciona para celulas*/
+	  tmp = desempilha(pil);
+
+	  if (tmp.t == NUM)
+	    printf("%d\n", tmp.var.n);
+	  else if (tmp.t == ACAO)
+	  	printf("%d\n", tmp.var.ac);
+	  else if (tmp.t == VAR)
+	  	printf("%d\n", tmp.var.v);
 	  break;
 	case ALC:/*Funcao auxiliar aloca frames na pilha de excecucao para
 				armazenar a variavel local*/
-	  exec->topo += arg;
+	  if (arg.t == NUM)
+	    exec->topo += arg.val.n;
 	  break;
 	case FRE:/*Funcao auxiliar libera frames da pilha de excecucao onde estavam
 				armazenadas as variaveis locais*/
-	  exec->topo -= arg;
+	  if (arg.t == NUM)
+	    exec->topo -= arg.val.n;
 	  break;
-	case ATR://this new
-	  cel = desempilha(pil);
-	  switch(arg) {
-	  	case 0:
-	  		empilha(pil, cel.terreno)
-	  		break;
-	  	case 1:
-	  		empilha(pil, cel.cristais)
-	  		break;
-	  	case 2:
-	  		empilha(pil, cel.ocupado)
-	  		break;
-	  	case 3:
-	  		empilha(pil, cel.pos[0])
-	  		break;
-	  	case 4:
-	  		empilha(pil, cel.pos[1])
-	  		break;
-	  	case 5:
-	  		empilha(pil, cel.base)
-	  		break;
+	case ATR:/*Verifica o tipo do objeto do topo, o desempilha e empilha uma
+				informcao da celula*/
+	  tmp = desempilha(pil);
+
+	  if (tmp.t == CELULA){
+	  	switch(arg) {
+	      case 0:
+	        empilha(pil, tmp.val.cel.terreno);
+	        break;
+	      case 1:
+	        empilha(pil, tmp.val.cel.cristais);
+	        break;
+	      case 2:
+	        empilha(pil, tmp.val.cel.ocupado);
+	        break;
+	      case 3:
+	        empilha(pil, tmp.val.cel.pos[0]);
+	        break;
+	      case 4:
+	        empilha(pil, tmp.val.cel.pos[1]);
+	        break;
+	      case 5:
+	        empilha(pil, tmp.val.cel.base);
+	        break;
+	    }
 	  }
 	  break;
 	case SISM://System call para mover

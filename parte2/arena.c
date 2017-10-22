@@ -98,8 +98,9 @@ void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tro
 void Atualiza (Maquina *tropas[256][], int nexercitos) {
 	for (int i=0; i<EXERCITO*nexercitos; i++)
 		for (int j=0; j<nexercitos; j++)
-			exec_maquina(tropas[i][j], TIMESTEP);//timestep = 1
+			exec_maquina(tropas[i][j], TIMESTEP);//timestep = 50
 }
+
 Celula buscaCel (int i, int j){
 	return grid[i][j];
 }
@@ -255,6 +256,7 @@ int Sistema(int op, Maquina *m) {
 		}
 	}
 }
+
 int main (int ac, char **av){
 	Maquina *tropas[256][EXERCITO];
 	for (int i=0; i<nexercitos; i++){
