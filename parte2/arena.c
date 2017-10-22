@@ -6,6 +6,7 @@
 5 = bomba
 6 = base
 flag -lm (math.h precisa)
+hikaru é meu amigo
 */
 
 #include <stdio.h>
@@ -15,7 +16,7 @@ flag -lm (math.h precisa)
 #include "maq.h"
 #include "arena.h"
 
-#define GRID_TAM 1000
+#define GRID_TAM 10
 #define EXERCITO 500
 #define TIMESTEP 50
 #define N_TIMES 2
