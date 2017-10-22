@@ -11,8 +11,8 @@ hikaru é meu amigo
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <math.h>
+#include <time.h>   /* necessário para garantir aleatoriedade */
+#include <math.h>   /*      a distribuicao dos terrenos       */
 #include "maq.h"
 #include "arena.h"
 
@@ -21,7 +21,9 @@ hikaru é meu amigo
 #define TIMESTEP 50
 #define N_TIMES 2
 #define N_CRISTAIS 10
-#define arenaG arena.grid[i][j]
+
+// macros para pegar uma celula da arena
+#define arenaG arena.grid[i][j]                  
 #define arenaGR1 arena.grid[random11][random12]
 #define arenaGR2 arena.grid[random21][random22]
 
@@ -34,8 +36,8 @@ typedef struct {
 
 void InsereArena() {
 
-	int random11, random12;
-	int random21, random22;
+	int random11, random12; // indices aleatorios para aleatoriedade das bases
+	int random21, random22; // indices aleatorios para aleatoriedade dos cristais
 	int timesBases;
 	int cristaisBase;
 
@@ -46,24 +48,28 @@ void InsereArena() {
 	// Criacao da arena
 	for (int i = 0; i < (GRID_TAM * 2); i++) {
 		for (int j = 0; j < GRID_TAM; j++) {
+			// designa "NADA" as casas da matriz que nao serao utilizadas (por ser hexagonal)
       		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0))
-      			arenaG = NADA;
+      			{arenaG = NADA; arenaG.pos = {i, j};}
+      		// designa "ARMADILHA", "AGUA", "AREIA", "ESTRADA" ou "RUELA" aleatoriamente
+      		// as casas utilizaveis da matriz com probabilidade predefinida
       		else {
 				int random1 = rand() % 100;
-				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.posi = {i, j};}
-				else if (random1 < 25) {arenaG.terreno = AGUA; arenaG.posi = {i, j};}
-				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.posi = {i, j};}
-				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.posi = {i, j};}
-				else {arenaG.terreno = RUELA; arenaG.posi = {i, j};}
+				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.pos = {i, j};}
+				else if (random1 < 25) {arenaG.terreno = AGUA; arenaG.pos = {i, j};}
+				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.pos = {i, j};}
+				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.pos = {i, j};}
+				else {arenaG.terreno = RUELA; arenaG.pos = {i, j};}
       		}
    		}
 	}
 
 	timesBases = N_TIMES;
 
+	// designa as bases aleatoriamente a matriz
 	while (timesBases > 0) {
-		random11 = rand() % (GRID_TAM - 2) + 1;
-		random12 = rand() % (tamanhoY - 2) + 1;
+		random11 = rand() % (GRID_TAM - 2) + 1; // indices
+		random12 = rand() % (tamanhoY - 2) + 1; // aleatorios
 
 		if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
 			arenaGR1.terreno = BASE;
@@ -73,9 +79,10 @@ void InsereArena() {
 
 	cristaisBase = N_CRISTAIS;
 
+	// designa os cristais aleatoriamente a matriz
 	while (cristaisBase > 0) {
-		random21 = rand() % (GRID_TAM - 2) + 1;
-		random22 = rand() % (tamanhoY - 2) + 1;
+		random21 = rand() % (GRID_TAM - 2) + 1; //indices
+		random22 = rand() % (tamanhoY - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.terreno != BASE && arenaGR2.cristais == 0) {
 			arenaGR2.cristais = 1;
@@ -261,7 +268,7 @@ int main (int ac, char **av){
 	Maquina *tropas[256][EXERCITO];
 	for (int i=0; i<nexercitos; i++){
 		for (int j=0; j<EXERCITO; j++){
-			tropas[i][j]InsereExercito(diretriz);
+			tropas[i][j] = InsereExercito(diretriz);
 		}
 	}
 	for (int i=0; i<rodadas; i++)
