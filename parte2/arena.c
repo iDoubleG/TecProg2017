@@ -16,8 +16,7 @@ flag -lm (math.h precisa)
 #include "arena.h"
 
 #define GRID_TAM 10
-#define EXERCITO 500
-#define TROPAS_POR_EXERCITO 500
+#define TROPAS_POR_EXERCITO 3
 #define TIMESTEP 50
 #define N_TIMES 2
 #define N_CRISTAIS 10
@@ -106,10 +105,10 @@ void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tro
 	destroi_maquina(derrotado);
 }
 
-void Atualiza (Maquina *tropas[256][], int nexercitos) {
-	for (int i=0; i<EXERCITO*nexercitos; i++)
-		for (int j=0; j<nexercitos; j++)
-			exec_maquina(tropas[i][j], TIMESTEP);//timestep = 50
+void Atualiza () {
+	for (int i=0; i<TROPAS_POR_EXERCITO; i++)
+		for (int j=0; j<N_TIMES; j++)
+			exec_maquina(arena.exercitosAtivos[i][j], TIMESTEP);//timestep = 50
 	tempoCorrido++;
 }
 
@@ -128,11 +127,12 @@ Maquina *buscaMaq (int patente, int i, int j){
   }
 }
 
-int Sistema(int op, Maquina *m) {
+OPERANDO Sistema(OPERANDO op, Maquina *m) {
 //Os switch de j que vão de 0 a 5 representam as direções das ações, em sentido horário, começando por cima
-	int i = op/10;
+  OPERANDO return_value;
+	int i = op.val/10;
 //Primeiro algarismo indica o tipo de ação
-	int j = op % 10;
+	int j = op.val % 10;
 //Segundo algarismo indica a direção da ação
 	Celula cel;
 	int aux1;
@@ -144,53 +144,113 @@ int Sistema(int op, Maquina *m) {
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
-			if (aux1 < 2) return 0; //borda de cima
+			if (aux1 < 2) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  
 			case 1:
-			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
+			if (aux1 == 0 || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  
 			case 2:
-			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM){
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 	  	if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  
 			case 3:
-			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
+			if (aux1 > (2*GRID_TAM - 2)) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 	  	if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  
 			case 4:
-			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
+			if (aux1 == 2*GRID_TAM || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  
 			case 5:
-			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
+			if (aux1 == 0 || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
-			  return 1;
+			  return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;	
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 		}
 		
 		case 1://Atacar
@@ -198,53 +258,109 @@ int Sistema(int op, Maquina *m) {
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
-			if (aux1 < 2) return 0; //borda de cima
+			if (aux1 < 2){
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1-2, aux2));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
 			else return 0;
 			case 1:
-			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
+			if (aux1 == 0 || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1-1, aux2+1));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 			case 2:
-			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1+1, aux2+1));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 			case 3:
-			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
+			if (aux1 > (2*GRID_TAM - 2)) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1+2, aux2));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 			case 4:
-			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
+			if (aux1 == 2*GRID_TAM || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1+1, aux2-1));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 			case 5:
-			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
+			if (aux1 == 0 || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado > 0) {
 			  destroi_maquina(buscaMaq(aux1-1, aux2-1));
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;	
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 		}
 		
 		case 2://Recolher. Verifica quantos cristais há na célula e retorna esse valor.
@@ -252,93 +368,189 @@ int Sistema(int op, Maquina *m) {
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
-			if (aux1 < 2) return 0; //borda de cima
+			if (aux1 < 2) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
-			return cel.cristais;
+			return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 			case 1:
-			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
+			if (aux1 == 0 || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
-			return cel.cristais;
+			return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 			case 2:
-			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
-			return cel.cristais;
+			return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 			case 3:
-			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
+			if (aux1 > (2*GRID_TAM - 2)) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
-			return cel.cristais;
+		  return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 			case 4:
-			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
+			if (aux1 == 2*GRID_TAM || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
-			return cel.cristais;
+			return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 			case 5:
-			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
+			if (aux1 == 0 || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	 //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
-			return cel.cristais;
+			return_value.val.n = cel.cristais;
+			return_value.t = NUM;
+			return return_value;
 		}
 		
 		case 3://Depositar. Verifica se há alguém na célula e deposita os cristais na máquina se não houver ninguém
 		aux1 = m->pos[0];
 		aux2 = m->pos[1];
 		switch(j){
-		  if (aux1 < 2) return 0; //borda de cima
+		  if (aux1 < 2) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}
 			case 1:
-			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
+			if (aux1 == 0 || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}
 			case 2:
-			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}
 			case 3:
-			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
+			if (aux1 > (2*GRID_TAM - 2)) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}
 			case 4:
-			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
+			if (aux1 == 2*GRID_TAM || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}
 			case 5:
-			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
+			if (aux1 == 0 || aux2 == 0) {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			} //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
-				return 1;
+				return_value.val.n = 1;
+			  return_value.t = NUM;
+			  return return_value;
 			}
-			else return 0;	
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}	
 		}
 		
 	}
 }
 
 int main (int ac, char **av){
-  InsereArena();
+ 	InsereArena();
 	for (int i=0; i<N_TIMES; i++){
 		InsereExercito(diretriz, i);
 	}
-	for (int i=0; i<rodadas; i++)
-		Atualiza (tropas);
-	
+	for (int i=0; i<RODADAS; i++)
+		Atualiza();
+	return 0;
 }

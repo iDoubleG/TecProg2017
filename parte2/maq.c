@@ -342,44 +342,52 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	    }
 	  }
 	  break;
-	case SISM://System call para mover
-	  tmp = Sistema(arg, *m);
-	  if(tmp == 1) {
-	  	switch(arg) {
-			case 0:
-				maqi += -2;
-			case 1:
-				maqi += -1;
-				maqj += 1;
-			case 2:
-				maqi += 1;
-				maqj += 1;
-			case 3:
-				maqi += 2;
-			case 4:
-				maqi += 1;
-				maqj += -1;
-			case 5:
-				maqi += -1;
-				maqj += -1;
+	case SISM:/*System call, verifica o tipo do argumento e tenta mover a maquina*/
+	  if (arg.t == NUM){
+	    tmp = Sistema(arg, *m);
+	    if(tmp.val == 1) {
+	  	  switch(arg) {
+			  case 0:
+			  	maqi += -2;
+			  case 1:
+				  maqi += -1;
+				  maqj += 1;
+			  case 2:
+				  maqi += 1;
+				  maqj += 1;
+			  case 3:
+				  maqi += 2;
+			  case 4:
+				  maqi += 1;
+				  maqj += -1;
+			  case 5:
+				  maqi += -1;
+				  maqj += -1;
+	  	  }
 		}
 	  break;
-	case SISA://System call para atacar
-	  tmp = Sistema(arg+10, *m);
-	  if(tmp == 1){
-		m->matou += 1;
+	case SISA:/*System call, verifica o tipo do argumento e tenta atacar algum inimigo*/
+	  if (arg.t == NUM){
+	    tmp = Sistema(arg+10, *m);
+	    if(tmp.val == 1){
+	    	m->matou += 1;
+	    }
 	  }
 	  break;
-	case SISR://System call para recolher os cristais 
-	  tmp = Sistema(arg+20, *m);
-	  if(tmp > 0){
-		contador_cristais += tmp;
+	case SISR:/*System call, verifica o tipo do argumento e tenta recolher os cristais da celula*/
+	  if (arg.t == NUM){
+	    tmp = Sistema(arg+20, *m);
+	    if(tmp.val > 0){
+		    contador_cristais += tmp.val;
+	    }
 	  }
 	  break;
-	case SISD://System call para depositar os cristais
-	  tmp = Sistema(arg+30, *m);
-	  if(tmp == 1 && contador_cristais > 0) {
-		contador_cristais = 0;
+	case SISD:/*System call, verifica o tipo do argumento e tenta depositar os cristais na base inimiga*/
+	  if (arg.t == NUM){
+	    tmp = Sistema(arg+30, *m);
+	    if(tmp.val == 1 && contador_cristais > 0) {
+		    contador_cristais = 0;
+	    }
 	  }
 	  break;
 	}
@@ -389,3 +397,4 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	ip++;
   }
 }
+
