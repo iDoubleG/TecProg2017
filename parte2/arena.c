@@ -6,7 +6,6 @@
 5 = bomba
 6 = base
 flag -lm (math.h precisa)
-hikaru é meu amigo
 */
 
 #include <stdio.h>
@@ -18,6 +17,7 @@ hikaru é meu amigo
 
 #define GRID_TAM 10
 #define EXERCITO 500
+#define TROPAS_POR_EXERCITO 500
 #define TIMESTEP 50
 #define N_TIMES 2
 #define N_CRISTAIS 10
@@ -28,20 +28,19 @@ hikaru é meu amigo
 #define arenaGR2 arena.grid[random21][random22]
 
 typedef struct {
-	Celula grid[GRID_TAM*2][GRID_TAM];
-	int ExercitosAtivos[EXERCITO];
+	Maquina exercitosAtivos[256][TROPAS_POR_EXERCITO];
 	int tempoCorrido;
+	int contadorExercitos;
+	Celula grid[GRID_TAM*2][GRID_TAM];
 } Arena;
 
+Arena arena;
 
 void InsereArena() {
 
-	int random11, random12; // indices aleatorios para aleatoriedade das bases
 	int random21, random22; // indices aleatorios para aleatoriedade dos cristais
-	int timesBases;
 	int cristaisBase;
 
-	Arena arena;
 
 	srand(time(NULL));
 
@@ -64,19 +63,6 @@ void InsereArena() {
    		}
 	}
 
-	timesBases = N_TIMES;
-
-	// designa as bases aleatoriamente a matriz
-	while (timesBases > 0) {
-		random11 = rand() % (GRID_TAM - 2) + 1; // indices
-		random12 = rand() % (tamanhoY - 2) + 1; // aleatorios
-
-		if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
-			arenaGR1.terreno = BASE;
-			timesBases--;
-		}
-	}
-
 	cristaisBase = N_CRISTAIS;
 
 	// designa os cristais aleatoriamente a matriz
@@ -91,11 +77,29 @@ void InsereArena() {
 	}
 }
 
-Maquina *InsereExercito (INSTR diretriz) {
-	Maquina *tropa = cria_maquina(diretriz);
-	tropa->time = i;
-	tropa->posicao = j;
-	return tropa;
+void InsereExercito (INSTR diretriz, int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
+	
+	int random11, random12;
+  while(true) {
+	  // designa as bases aleatoriamente a matriz
+	  random11 = rand() % (GRID_TAM - 2) + 1; // indices
+	  random12 = rand() % (tamanhoY - 2) + 1; // aleatorios
+
+	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
+	    arenaGR1.terreno = BASE;
+		  break;
+	  }
+  }
+
+	for(int i = 0; i < TROPAS_POR_EXERCITO; i++){//cria máquinas e guarda cada uma em um lugar da lista de exercitos ativos
+    Maquina *tropa = cria_maquina(diretriz);
+    arena.exercitosAtivos[equipe][i] = tropa;
+    tropa->time = equipe;
+    tropa->pos[0] = random11;
+    tropa->pos[1] = random12;
+    tropa->patente = i;
+	}
+	arenaGR1.ocupado = 1;
 }
 
 void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tropa a ser eliminada
@@ -106,10 +110,22 @@ void Atualiza (Maquina *tropas[256][], int nexercitos) {
 	for (int i=0; i<EXERCITO*nexercitos; i++)
 		for (int j=0; j<nexercitos; j++)
 			exec_maquina(tropas[i][j], TIMESTEP);//timestep = 50
+	tempoCorrido++;
 }
 
 Celula buscaCel (int i, int j){
 	return grid[i][j];
+}
+
+Maquina *buscaMaq (int patente, int i, int j){
+  int pos1[2];
+  pos1[0] = i;
+  pos1[1] = j;
+  for(int k = 0; k < N_TIMES; k++){
+    if((arena.exercitosAtivos[k][patente])->pos == pos1){
+      return arena.exercitosAtivos[k][patente];
+    }
+  }
 }
 
 int Sistema(int op, Maquina *m) {
@@ -128,97 +144,144 @@ int Sistema(int op, Maquina *m) {
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
+			if (aux1 < 2) return 0; //borda de cima
 			cel = buscaCel(aux1-2, aux2);
-			if(cel.ocupado == 0) return 1;
+			if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;
 			case 1:
+			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
-			if(cel.ocupado == 0) return 1;
+			if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;
 			case 2:
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
-			if(cel.ocupado == 0) return 1;
+	  	if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;
 			case 3:
+			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
-			if(cel.ocupado == 0) return 1;
+	  	if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;
 			case 4:
+			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
-			if(cel.ocupado == 0) return 1;
+			if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;
 			case 5:
+			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
-			if(cel.ocupado == 0) return 1;	
+			if(cel.ocupado == 0) {
+			  cel.ocupado = m->patente;
+			  return 1;
+			}
 			else return 0;	
 		}
-		case 1://Atacar(IMPLEMENTAÇÃO INCOMPLETA)
+		
+		case 1://Atacar
 		aux1 = m->pos[0];
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
+			if (aux1 < 2) return 0; //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1-2, aux2));
 				return 1;
 			}
 			else return 0;
 			case 1:
+			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1-1, aux2+1));
 				return 1;
 			}
 			else return 0;
 			case 2:
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1+1, aux2+1));
 				return 1;
 			}
 			else return 0;
 			case 3:
+			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1+2, aux2));
 				return 1;
 			}
 			else return 0;
 			case 4:
+			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1+1, aux2-1));
 				return 1;
 			}
 			else return 0;
 			case 5:
+			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado > 0) {
+			  destroi_maquina(buscaMaq(aux1-1, aux2-1));
 				return 1;
 			}
 			else return 0;	
 		}
+		
 		case 2://Recolher. Verifica quantos cristais há na célula e retorna esse valor.
 		aux1 = m->pos[0];
 		aux2 = m->pos[1];
 		switch(j){
 			case 0:
+			if (aux1 < 2) return 0; //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			return cel.cristais;
 			case 1:
+			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			return cel.cristais;
 			case 2:
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			return cel.cristais;
 			case 3:
+			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
+			cel = buscaCel(aux1+2, aux2);
 			return cel.cristais;
 			case 4:
+			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			return cel.cristais;
 			case 5:
+			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			return cel.cristais;
 		}
+		
 		case 3://Depositar. Verifica se há alguém na célula e deposita os cristais na máquina se não houver ninguém
 		aux1 = m->pos[0];
 		aux2 = m->pos[1];
 		switch(j){
+		  if (aux1 < 2) return 0; //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -226,6 +289,7 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;
 			case 1:
+			if (aux1 == 0 || aux2 == GRID_TAM) return 0; //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -233,6 +297,7 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;
 			case 2:
+			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM) return 0; //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -240,6 +305,7 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;
 			case 3:
+			if (aux1 > (2*GRID_TAM - 2)) return 0; //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -247,6 +313,7 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;
 			case 4:
+			if (aux1 == 2*GRID_TAM || aux2 == 0) return 0; //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -254,6 +321,7 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;
 			case 5:
+			if (aux1 == 0 || aux2 == 0) return 0; //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado == 0) {
 				cel.cristais = m->ncristais;
@@ -261,15 +329,14 @@ int Sistema(int op, Maquina *m) {
 			}
 			else return 0;	
 		}
+		
 	}
 }
 
 int main (int ac, char **av){
-	Maquina *tropas[256][EXERCITO];
-	for (int i=0; i<nexercitos; i++){
-		for (int j=0; j<EXERCITO; j++){
-			tropas[i][j] = InsereExercito(diretriz);
-		}
+  InsereArena();
+	for (int i=0; i<N_TIMES; i++){
+		InsereExercito(diretriz, i);
 	}
 	for (int i=0; i<rodadas; i++)
 		Atualiza (tropas);
