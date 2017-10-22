@@ -45,9 +45,8 @@ void InsereArena() {
 	// Criacao da arena
 	for (int i = 0; i < (GRID_TAM * 2); i++) {
 		for (int j = 0; j < GRID_TAM; j++) {
-      		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0)) {
+      		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0))
       			arenaG = NADA;
-      		}
       		else {
 				int random1 = rand() % 100;
 				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.posi = {i, j};}
@@ -77,8 +76,8 @@ void InsereArena() {
 		random21 = rand() % (GRID_TAM - 2) + 1;
 		random22 = rand() % (tamanhoY - 2) + 1;
 
-		if (arenaGR.terreno != NADA && arenaGR.terreno != BASE && arenaGR.cristais == 0) {
-			arenaGR.cristais = 1;
+		if (arenaGR2.terreno != NADA && arenaGR2.terreno != BASE && arenaGR2.cristais == 0) {
+			arenaGR2.cristais = 1;
 			cristaissBase--;
 		}
 	}
