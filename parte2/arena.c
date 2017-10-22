@@ -18,6 +18,8 @@ flag -lm (math.h precisa)
 #define GRID_TAM 1000
 #define EXERCITO 500
 #define TIMESTEP 50
+#define N_TIMES 2
+#define N_CRISTAIS 10
 #define arenaG arena.grid[i][j]
 #define arenaGR1 arena.grid[random11][random12]
 #define arenaGR2 arena.grid[random21][random22]
@@ -31,12 +33,10 @@ typedef struct {
 
 void InsereArena() {
 
-	int times = 25;
-	int timesBases;
 	int random11, random12;
-	int comparador;
-	int cristaiss;
-	int cristaissBase;
+	int random21, random22;
+	int timesBases;
+	int cristaisBase;
 
 	Arena arena;
 
@@ -58,7 +58,7 @@ void InsereArena() {
    		}
 	}
 
-	timesBases = times;
+	timesBases = N_TIMES;
 
 	while (timesBases > 0) {
 		random11 = rand() % (GRID_TAM - 2) + 1;
@@ -70,15 +70,15 @@ void InsereArena() {
 		}
 	}
 
-	cristaissBase = cristaiss;
+	cristaisBase = N_CRISTAIS;
 
-	while (cristaissBase > 0) {
+	while (cristaisBase > 0) {
 		random21 = rand() % (GRID_TAM - 2) + 1;
 		random22 = rand() % (tamanhoY - 2) + 1;
 
 		if (arenaGR2.terreno != NADA && arenaGR2.terreno != BASE && arenaGR2.cristais == 0) {
 			arenaGR2.cristais = 1;
-			cristaissBase--;
+			cristaisBase--;
 		}
 	}
 }
