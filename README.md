@@ -1,2 +1,2 @@
 # TecProg2017
-Repositório destinado aos projetos de TecProg dos não burros, apenas humildes, Iggor e Vinicius.
+Repositório destinado aos projetos de TecProg dos não burros, apenas humildes, Iggor, Vinicius e Luis.
