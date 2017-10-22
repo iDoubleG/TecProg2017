@@ -1,4 +1,4 @@
-﻿		Maquina virtual → adaptacao para chamadas ao sistema de implementacao do estado
+﻿	v	Maquina virtual → adaptacao para chamadas ao sistema de implementacao do estado
 
 	v	Definir uma struct com dois campos: indicador de tipo; indicador de valor
 
@@ -12,11 +12,11 @@
 	v	Os operandos das instrucoes devem ser verificados quanto a compatibilidade da operacao em todo caso
 			Maquina virtual → verifica o tipo de cada valor da pilha
 
-		Chamadas de sistema (arena): instrucoes q solicitam operacoes que alteram o estado do jogo
+	v	Chamadas de sistema (arena): instrucoes q solicitam operacoes que alteram o estado do jogo
 			Colocar argumentos na pilha de dados e chamar a Arena, dps resposta no topo da pilha
 
 		---Arena:---
-		Deve conter – Lista dos exercitos ativos, com a posuicao de cada robo
+	v	Deve conter – Lista dos exercitos ativos, com a posuicao de cada robo
 			         - Tempo transcorrido
 
 		Metodos
@@ -26,7 +26,7 @@
 	v		- RemoveExercito() - retira um exercito derrotado
 			- Sistema(int op): chamada por uma instrucao especial da maquina virtual. Argumento: identificacao do tipo de chamada
 
-		Chamadas ao sistema (arena)
+	v	Chamadas ao sistema (arena)
 			Os resultados das chamadas deverao ser tratados pela instrucao que realizou a chamada
 			- [Mover, direcao] : solicita que o robo seja movido na direcao indicada
 			- [Recolhe, direcao] : recolhe cristal na posicao vizinha indicada pela diracao
@@ -35,9 +35,12 @@
 
 		A fazer
 	v		- Construcao da matriz e sua inicializacao
-			- Registro de maquinas virtuais: Na -Arena- um vetor de ponteiros p/ maq. virtuais tam. 100
+	v		- Registro de maquinas virtuais: Na -Arena- um vetor de ponteiros p/ maq. virtuais tam. 100
 				Deve receber o endereco de uma maq. virtual e copialo na primeira posicao livre deste vetor
 	v		- Escalonador: funcao que percorre o vetor de maquinas e manda cada uma executar um numero pequeno (50) de instrucoes virtuais, retornando a primeira apos percorrer o vetor todo.
 				Deve receber um parametro dizendo quantas rodadas serao executadas
-			- Modificacoes na Maquina Virtual segundo o item 3.1.1
+	v		- Modificacoes na Maquina Virtual segundo o item 3.1.1
 			- Teste(?) pro role todo
+
+
+PUCE, IMPLEMENTA UMA DECLARACAO DE ID QUANDO FOREM INSERIDAS AS MAQUINAS NA GRID, DIZENDO O TIME E A PATENTE, PRA GENTE CONSEGUIR MATAR OS FILHOS DA PUTA
