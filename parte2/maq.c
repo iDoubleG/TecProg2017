@@ -196,7 +196,7 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  tmp = desempilha(pil);//perguntar o tipo
 
 	  if (tmp.t == NUM && arg.t == NUM)
-	    exec->val[rbp+arg.val.n] = tmp.var.n;
+	    exec->val[rbp+arg.val.n] = tmp.val.n;
 	  break;
 	case RCE:/*Verifica o tipo do topo na pilha de excecucao e recupera a
 				variavel local da pilha de excecucao.*/
@@ -209,79 +209,109 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  break;
 	case EQ:/*Desempilha os 2 objetos do topo, verifica a igualdade entre eles
 			e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) == desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n == op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	  break;
 	case GT:/*Desempilha os 2 objetos do topo, verifica se um e estritamente
 				maior que o outro e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) < desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n < op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	  break;
 	case GE:/*Desempilha os 2 objetos do topo, verifica se um e maior ou igual
 				ao outro e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) <= desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n <= op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	  break;
 	case LT:/*Desempilha os 2 objetos do topo, verifica se um e estritamente
 				menor que o outro e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) > desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n > op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	  break;
 	case LE:/*Desempilha os 2 objetos do topo, verifica se um e menor ou igual
 				ao outro e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) >= desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n >= op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	case NE:/*Desempilha os 2 objetos do topo, verifica a nao igualdade entre
 				eles e empilha um operando verdadeiro ou falso*/
-	  if (desempilha(pil) != desempilha(pil)) {
-	  	res.t = NUM;
-	  	res.val.n = 1;
-	  	empilha(pil, res);
-	  }
-	  else {
-	  	res.t = NUM;
-	  	res.val.n = 0;
-	  	empilha(pil, res);
+	  op1 = desempilha(pil);
+	  op2 = desempilha(pil);
+
+	  if (op1.t == NUM && op2.t == NUM){
+	  	if (op2.val.n != op1.val.n) {
+		  	res.t = NUM;
+		  	res.val.n = 1;
+		  	empilha(pil, res);
+		  }
+		  else {
+		  	res.t = NUM;
+		  	res.val.n = 0;
+		  	empilha(pil, res);
+	  	  }
 	  }
 	  break;
 	case STO:/*Armazena no vetor de memoria o objeto no topo da pilha*/
@@ -299,11 +329,11 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  tmp = desempilha(pil);
 
 	  if (tmp.t == NUM)
-	    printf("%d\n", tmp.n);
+	    printf("%d\n", tmp.val.n);
 	  else if (tmp.t == ACAO)
-	  	printf("%d\n", tmp.ac);
+	  	printf("%d\n", tmp.val.ac);
 	  else if (tmp.t == VAR)
-	  	printf("%d\n", tmp.v);
+	  	printf("%d\n", tmp.val.v);
 	  break;
 	case ALC:/*Funcao auxiliar aloca frames na pilha de excecucao para
 				armazenar a variavel local*/
@@ -320,7 +350,7 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  tmp = desempilha(pil);
 
 	  if (tmp.t == CELULA && arg.t == NUM){
-	  	switch(arg.var.n) {
+	  	switch(arg.val.n) {
 	      case 0:
 	        empilha(pil, tmp.val.cel.terreno);
 	        break;
@@ -345,9 +375,9 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	case SISM:/*System call, verifica o tipo do argumento e tenta mover a
 				maquina*/
 	  if (arg.t == NUM){
-	    tmp = Sistema(arg, *m);
+	    tmp = Sistema(arg, m);
 	    if(tmp.val.n == 1) {
-	  	  switch(arg) {
+	  	  switch(arg.val.n) {
 			  case 0:
 			  	maqi += -2;
 			  case 1:
@@ -370,7 +400,8 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	case SISA:/*System call, verifica o tipo do argumento e tenta atacar algum
 				inimigo*/
 	  if (arg.t == NUM){
-	    tmp = Sistema(arg+10, *m);
+	    arg.val.n += 10;
+	    tmp = Sistema(arg, m);
 	    if(tmp.val.n == 1){
 	    	m->matou += 1;
 	    }
@@ -379,8 +410,9 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	case SISR:/*System call, verifica o tipo do argumento e tenta recolher os
 				cristais da celula*/
 	  if (arg.t == NUM){
-	    tmp = Sistema(arg+20, *m);
-	    if(tmp.val > 0){
+	    arg.val.n += 20;
+	    tmp = Sistema(arg, m);
+	    if(tmp.val.n > 0){
 		    contador_cristais += tmp.val.n;
 	    }
 	  }
@@ -388,7 +420,8 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	case SISD:/*System call, verifica o tipo do argumento e tenta depositar os
 				cristais na base inimiga*/
 	  if (arg.t == NUM){
-	    tmp = Sistema(arg+30, *m);
+	  	arg.val.n += 30;
+	    tmp = Sistema(arg, m);
 	    if(tmp.val.n == 1 && contador_cristais > 0) {
 		    contador_cristais = 0;
 	    }
@@ -400,4 +433,4 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	D(puts("\n"));
 	ip++;
   }
-}
+}}
