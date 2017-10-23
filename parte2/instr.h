@@ -56,6 +56,15 @@ typedef enum {//this new
   NADA
 } Terreno;
 
+/* Célula */
+typedef struct {
+  Terreno terreno;
+  short int cristais;
+  short int ocupado;
+  int pos[2];
+  int base;//numero vai ser o time; 0 = nao tem time
+} Celula;
+
 /* Alternativamente, Celula pode ser implementada como um vetor de ints
    ou short ints, isso torna a implementação de ATR mais fácil */
 
