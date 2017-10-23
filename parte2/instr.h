@@ -1,6 +1,5 @@
 #ifndef INSTR_H
 #define INSTR_H
-#include "arena.h"
 
 /* Códigos das instruções */
 typedef enum {
