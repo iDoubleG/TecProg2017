@@ -153,8 +153,8 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				caso verdadeiro*/
 	  tmp = desempilha(pil);
 
-	  if (tmp.t == ACAO && arg.t == NUM) {//perguntar qual o tipo de tmp nesse caso
-		if (tmp.val.ac != 0) {
+	  if (tmp.t == NUM && arg.t == NUM) {//perguntar qual o tipo de tmp nesse caso
+		if (tmp.val.n != 0) {
 		  ip = arg.val.n;
 		  continue;
 		}
@@ -164,8 +164,8 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				caso falso*/
 	  tmp = desempilha(pil);
 
-	  if (tmp.t == ACAO && arg.t == NUM) {//perguntar tambem
-	    if (tmp == 0) {
+	  if (tmp.t == NUM && arg.t == NUM) {//perguntar tambem
+	    if (tmp.val.n == 0) {
 		  ip = arg.val.n;
 		  continue;
 		}
@@ -195,15 +195,15 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				excecucao a variavel local.*/
 	  tmp = desempilha(pil);//perguntar o tipo
 
-	  if (tmp.t == VAR && arg.t == NUM)
-	    exec->val[rbp+arg.val.n] = tmp.var.v;
+	  if (tmp.t == NUM && arg.t == NUM)
+	    exec->val[rbp+arg.val.n] = tmp.var.n;
 	  break;
 	case RCE:/*Verifica o tipo do topo na pilha de excecucao e recupera a
 				variavel local da pilha de excecucao.*/
 	  if (arg.t == NUM) {//perguntar o tipo
 	    tmp = exec->val[rbp+arg.val.n];
 
-	    if (tmp.t == VAR)
+	    if (tmp.t == NUM)
 	      empilha(pil, tmp);
 	  }
 	  break;
@@ -299,11 +299,11 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  tmp = desempilha(pil);
 
 	  if (tmp.t == NUM)
-	    printf("%d\n", tmp.var.n);
+	    printf("%d\n", tmp.n);
 	  else if (tmp.t == ACAO)
-	  	printf("%d\n", tmp.var.ac);
+	  	printf("%d\n", tmp.ac);
 	  else if (tmp.t == VAR)
-	  	printf("%d\n", tmp.var.v);
+	  	printf("%d\n", tmp.v);
 	  break;
 	case ALC:/*Funcao auxiliar aloca frames na pilha de excecucao para
 				armazenar a variavel local*/
@@ -319,8 +319,8 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				informcao da celula*/
 	  tmp = desempilha(pil);
 
-	  if (tmp.t == CELULA){
-	  	switch(arg) {
+	  if (tmp.t == CELULA && arg.t == NUM){
+	  	switch(arg.var.n) {
 	      case 0:
 	        empilha(pil, tmp.val.cel.terreno);
 	        break;
@@ -342,10 +342,11 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	    }
 	  }
 	  break;
-	case SISM:/*System call, verifica o tipo do argumento e tenta mover a maquina*/
+	case SISM:/*System call, verifica o tipo do argumento e tenta mover a
+				maquina*/
 	  if (arg.t == NUM){
 	    tmp = Sistema(arg, *m);
-	    if(tmp.val == 1) {
+	    if(tmp.val.n == 1) {
 	  	  switch(arg) {
 			  case 0:
 			  	maqi += -2;
@@ -366,26 +367,29 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  	  }
 		}
 	  break;
-	case SISA:/*System call, verifica o tipo do argumento e tenta atacar algum inimigo*/
+	case SISA:/*System call, verifica o tipo do argumento e tenta atacar algum
+				inimigo*/
 	  if (arg.t == NUM){
 	    tmp = Sistema(arg+10, *m);
-	    if(tmp.val == 1){
+	    if(tmp.val.n == 1){
 	    	m->matou += 1;
 	    }
 	  }
 	  break;
-	case SISR:/*System call, verifica o tipo do argumento e tenta recolher os cristais da celula*/
+	case SISR:/*System call, verifica o tipo do argumento e tenta recolher os
+				cristais da celula*/
 	  if (arg.t == NUM){
 	    tmp = Sistema(arg+20, *m);
 	    if(tmp.val > 0){
-		    contador_cristais += tmp.val;
+		    contador_cristais += tmp.val.n;
 	    }
 	  }
 	  break;
-	case SISD:/*System call, verifica o tipo do argumento e tenta depositar os cristais na base inimiga*/
+	case SISD:/*System call, verifica o tipo do argumento e tenta depositar os
+				cristais na base inimiga*/
 	  if (arg.t == NUM){
 	    tmp = Sistema(arg+30, *m);
-	    if(tmp.val == 1 && contador_cristais > 0) {
+	    if(tmp.val.n == 1 && contador_cristais > 0) {
 		    contador_cristais = 0;
 	    }
 	  }

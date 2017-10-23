@@ -8,5 +8,5 @@ void RemoveExercito(Maquina *m);
 void Atualiza();
 Celula buscaCel(int i, int j);
 Maquina *buscaMaq(int patente, int i, int j);
-int Sistema(int o, Maquina *m);
+OPERANDO Sistema(OPERANDO op, Maquina *m);
 #endif
