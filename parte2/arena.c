@@ -132,9 +132,9 @@ Maquina *buscaMaq (int patente, int i, int j){
 OPERANDO Sistema(OPERANDO op, Maquina *m) {
 //Os switch de j que vão de 0 a 5 representam as direções das ações, em sentido horário, começando por cima
   OPERANDO return_value;
-	int i = op.val/10;
+	int i = op.val.n / 10;
 //Primeiro algarismo indica o tipo de ação
-	int j = op.val % 10;
+	int j = op.val.n % 10;
 //Segundo algarismo indica a direção da ação
 	Celula cel;
 	int aux1;
@@ -267,12 +267,16 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1-2, aux2));
+			  destroi_maquina(buscaMaq(m->patente, aux1-2, aux2));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
 			}
-			else return 0;
+			else {
+			  return_value.val.n = 0;
+			  return_value.t = NUM;
+			  return return_value;
+			}  	
 			case 1:
 			if (aux1 == 0 || aux2 == GRID_TAM) {
 			  return_value.val.n = 0;
@@ -281,7 +285,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1-1, aux2+1));
+			  destroi_maquina(buscaMaq(m->patente, aux1-1, aux2+1));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
@@ -299,7 +303,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1+1, aux2+1));
+			  destroi_maquina(buscaMaq(m->patente, aux1+1, aux2+1));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
@@ -317,7 +321,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1+2, aux2));
+			  destroi_maquina(buscaMaq(m->patente, aux1+2, aux2));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
@@ -335,7 +339,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1+1, aux2-1));
+			  destroi_maquina(buscaMaq(m->patente, aux1+1, aux2-1));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
@@ -353,7 +357,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}  	 //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado > 0) {
-			  destroi_maquina(buscaMaq(aux1-1, aux2-1));
+			  destroi_maquina(buscaMaq(m->patente, aux1-1, aux2-1));
 				return_value.val.n = 1;
 			  return_value.t = NUM;
 			  return return_value;
@@ -543,16 +547,5 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return return_value;
 			}	
 		}
-		
 	}
-}
-
-int main (int ac, char **av){
- 	InsereArena();
-	for (int i=0; i<N_TIMES; i++){
-		InsereExercito(diretriz, i);
-	}
-	for (int i=0; i<RODADAS; i++)
-		Atualiza();
-	return 0;
 }
