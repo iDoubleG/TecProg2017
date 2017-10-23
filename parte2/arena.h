@@ -1,5 +1,6 @@
 #ifndef ARENA_H
 #define ARENA_H
+#define TIMESTEP 50
 
 #include "instr.h"
 #include "maq.h"

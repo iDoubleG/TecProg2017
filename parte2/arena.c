@@ -28,7 +28,7 @@ flag -lm (math.h precisa)
 #define arenaGR2 arena.grid[random21][random22]
 
 typedef struct {
-	Maquina exercitosAtivos[256][TROPAS_POR_EXERCITO];
+	Maquina *exercitosAtivos[256][TROPAS_POR_EXERCITO];
 	int tempoCorrido;
 	int contadorExercitos;
 	Celula grid[GRID_TAM*2][GRID_TAM];
@@ -116,7 +116,7 @@ void Atualiza () {
 }
 
 Celula buscaCel (int i, int j){
-	return grid[i][j];
+	return arena.grid[i][j];
 }
 
 Maquina *buscaMaq (int patente, int i, int j){
