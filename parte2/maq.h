@@ -1,3 +1,5 @@
+#ifndef MAQ_H
+#define MAQ_H
 #include "pilha.h"
 
 #define MAXMEM 100
@@ -23,3 +25,4 @@ Maquina *cria_maquina(INSTR *p);
 void destroi_maquina(Maquina *m);
 
 void exec_maquina(Maquina *m, int n);
+#endif

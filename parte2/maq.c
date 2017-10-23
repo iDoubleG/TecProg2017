@@ -38,7 +38,7 @@ char *CODES[] = {
   "SISM",/*Nova instrucao que faz uma systemcall para mover a maquina*/
   "SISA",/*Nova instrucao que faz uma systemcall para a maquina atacar*/
   "SISR",/*Nova instrucao que faz uma systemcall para recolher cristais*/
-  "SISD" /*Nova instrucao que faz uma systemcall para depositar cristais*/
+  "SISD", /*Nova instrucao que faz uma systemcall para depositar cristais*/
 };
 #else
 #  define D(X)
@@ -397,4 +397,3 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	ip++;
   }
 }
-

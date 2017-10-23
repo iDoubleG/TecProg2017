@@ -1,3 +1,5 @@
+#ifndef INSTR_H
+#define INSTR_H
 #define MAP_SIZE 1000
 
 /* Códigos das instruções */
@@ -29,10 +31,10 @@ typedef enum {
   ALC,/*Declaracao da variavel FRE, ver comentario em maq.c*/
   FRE,/*Declaracao da variavel FRE, ver comentario em maq.c*/
   ATR,//this new
-  SISM	//this new						/* chamada de sistema */
-  SISA
-  SISR
-  SISD
+  SISM,	//this new						/* chamada de sistema */
+  SISA,  //this new 
+  SISR,  //this new
+  SISD,  //this new
 } OpCode;
 
 /* Tipos dos operandos */
@@ -76,3 +78,4 @@ typedef struct {
   OpCode instr;
   OPERANDO op;
 } INSTR;
+#endif
