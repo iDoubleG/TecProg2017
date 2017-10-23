@@ -5,7 +5,7 @@
 #include "maq.h"
 
 void InsereArena();
-void InsereExercito(INSTR diretriz, int equipe);
+void InsereExercito(INSTR diretriz[TIMESTEP], int equipe);
 void RemoveExercito(Maquina *derrotado);
 void Atualiza();
 Celula buscaCel(int i, int j);

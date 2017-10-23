@@ -41,6 +41,7 @@ void InsereArena() {
 	int random21, random22; // indices aleatorios para aleatoriedade dos cristais
 	int cristaisBase;
 
+	arena.tempoCorrido = 0;
 
 	srand(time(NULL));
 
@@ -49,16 +50,16 @@ void InsereArena() {
 		for (int j = 0; j < GRID_TAM; j++) {
 			// designa "NADA" as casas da matriz que nao serao utilizadas (por ser hexagonal)
       		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0))
-      			{arenaG.terreno = NADA; arenaG.pos = {i, j};}
+      			{arenaG.terreno = NADA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
       		// designa "ARMADILHA", "AGUA", "AREIA", "ESTRADA" ou "RUELA" aleatoriamente
       		// as casas utilizaveis da matriz com probabilidade predefinida
       		else {
 				int random1 = rand() % 100;
-				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.pos = {i, j};}
-				else if (random1 < 25) {arenaG.terreno = AGUA; arenaG.pos = {i, j};}
-				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.pos = {i, j};}
-				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.pos = {i, j};}
-				else {arenaG.terreno = RUELA; arenaG.pos = {i, j};}
+				if (random1 < 5) {arenaG.terreno = ARMADILHA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
+				else if (random1 < 25) {arenaG.terreno = AGUA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
+				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
+				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
+				else {arenaG.terreno = RUELA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
       		}
    		}
 	}
@@ -77,7 +78,7 @@ void InsereArena() {
 	}
 }
 
-void InsereExercito (INSTR diretriz, int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
+void InsereExercito (INSTR diretriz[TIMESTEP], int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
 	
 	int random11, random12;
 	int verdadeiro = 1;
@@ -111,7 +112,7 @@ void Atualiza () {
 	for (int i=0; i<TROPAS_POR_EXERCITO; i++)
 		for (int j=0; j<N_TIMES; j++)
 			exec_maquina(arena.exercitosAtivos[i][j], TIMESTEP);//timestep = 50
-	tempoCorrido++;
+	arena.tempoCorrido++;
 }
 
 Celula buscaCel (int i, int j){
