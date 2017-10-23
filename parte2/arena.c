@@ -14,6 +14,7 @@ flag -lm (math.h precisa)
 #include <math.h>   /*      a distribuicao dos terrenos       */
 #include "maq.h"
 #include "arena.h"
+#include "instr.h"
 
 #define GRID_TAM 10
 #define TROPAS_POR_EXERCITO 3

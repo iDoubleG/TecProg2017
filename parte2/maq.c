@@ -352,22 +352,34 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  if (tmp.t == CELULA && arg.t == NUM){
 	  	switch(arg.val.n) {
 	      case 0:
-	        empilha(pil, tmp.val.cel.terreno);
+	        res.val.v = tmp.val.cel.terreno;
+	        res.t = VAR;
+	        empilha(pil, res);
 	        break;
 	      case 1:
-	        empilha(pil, tmp.val.cel.cristais);
+	        res.val.n = tmp.val.cel.cristais;
+	        res.t = NUM;
+	        empilha(pil, res);
 	        break;
 	      case 2:
-	        empilha(pil, tmp.val.cel.ocupado);
+	        res.val.n = tmp.val.cel.ocupado;
+	        res.t = NUM;
+	        empilha(pil, res);
 	        break;
 	      case 3:
-	        empilha(pil, tmp.val.cel.pos[0]);
+	        res.val.n = tmp.val.cel.pos[1];
+	        res.t = NUM;
+	        empilha(pil, res);
 	        break;
 	      case 4:
-	        empilha(pil, tmp.val.cel.pos[1]);
+	        res.val.n = tmp.val.cel.pos[1];
+	        res.t = NUM;
+	        empilha(pil, res);
 	        break;
 	      case 5:
-	        empilha(pil, tmp.val.cel.base);
+	        res.val.n = tmp.val.cel.base;
+	        res.t = NUM;
+	        empilha(pil, res);
 	        break;
 	    }
 	  }
