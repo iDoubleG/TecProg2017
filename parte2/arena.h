@@ -1,6 +1,8 @@
 #ifndef ARENA_H
 #define ARENA_H
+
 #include "instr.h"
+#include "maq.h"
 
 void InsereArena();
 void InsereExercito(INSTR *p, int n);

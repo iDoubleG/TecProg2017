@@ -175,8 +175,12 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				da os novos valores de rbp e de ip a serem usados na pilha de
 				excecucao*/
 	  if (arg.t == NUM) {
-	    empilha(exec, rbp);
-	    empilha(exec, ip);
+	  	op1.val.n = rbp;
+	  	op1.t = NUM;
+	  	op2.val.n = ip;
+	  	op2.t = NUM;
+	    empilha(exec, op1);
+	    empilha(exec, op2);
 	    rbp = exec->topo -1;
 	    ip = arg.val.n;
 	  }
@@ -196,7 +200,7 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  tmp = desempilha(pil);//perguntar o tipo
 
 	  if (tmp.t == NUM && arg.t == NUM)
-	    exec->val[rbp+arg.val.n] = tmp.val.n;
+	    exec->val[rbp+arg.val.n] = tmp;
 	  break;
 	case RCE:/*Verifica o tipo do topo na pilha de excecucao e recupera a
 				variavel local da pilha de excecucao.*/
@@ -316,11 +320,11 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  break;
 	case STO:/*Armazena no vetor de memoria o objeto no topo da pilha*/
 	  if (arg.t == NUM)
-	    m->Mem[arg] = desempilha(pil);
+	    m->Mem[arg.val.n] = desempilha(pil);
 	  break;
 	case RCL:/*Empilha um objeto da memoria*/
 	  if (arg.t == NUM)
-	  	empilha(pil,m->Mem[arg]);
+	  	empilha(pil,m->Mem[arg.val.n]);
 	  break;
 	case END:/*Encerra a excecucao das instrucoes*/
 	  return;
