@@ -49,7 +49,7 @@ void InsereArena() {
 		for (int j = 0; j < GRID_TAM; j++) {
 			// designa "NADA" as casas da matriz que nao serao utilizadas (por ser hexagonal)
       		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0))
-      			{arenaG = NADA; arenaG.pos = {i, j};}
+      			{arenaG.terreno = NADA; arenaG.pos = {i, j};}
       		// designa "ARMADILHA", "AGUA", "AREIA", "ESTRADA" ou "RUELA" aleatoriamente
       		// as casas utilizaveis da matriz com probabilidade predefinida
       		else {
@@ -67,8 +67,8 @@ void InsereArena() {
 
 	// designa os cristais aleatoriamente a matriz
 	while (cristaisBase > 0) {
-		random21 = rand() % (GRID_TAM - 2) + 1; //indices
-		random22 = rand() % (tamanhoY - 2) + 1; //aleatorios
+		random21 = rand() % (GRID_TAM*2 - 2) + 1; //indices
+		random22 = rand() % (GRID_TAM - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.terreno != BASE && arenaGR2.cristais == 0) {
 			arenaGR2.cristais = 1;
@@ -80,10 +80,11 @@ void InsereArena() {
 void InsereExercito (INSTR diretriz, int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
 	
 	int random11, random12;
-  while(true) {
+	int verdadeiro = 1;
+  while(verdadeiro) {
 	  // designa as bases aleatoriamente a matriz
-	  random11 = rand() % (GRID_TAM - 2) + 1; // indices
-	  random12 = rand() % (tamanhoY - 2) + 1; // aleatorios
+	  random11 = rand() % (GRID_TAM*2 - 2) + 1; // indices
+	  random12 = rand() % (GRID_TAM - 2) + 1; // aleatorios
 
 	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
 	    arenaGR1.terreno = BASE;

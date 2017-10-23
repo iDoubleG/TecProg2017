@@ -67,15 +67,6 @@ typedef struct {
 /* Alternativamente, Celula pode ser implementada como um vetor de ints
    ou short ints, isso torna a implementação de ATR mais fácil */
 
-/* Célula */
-typedef struct {
-  Terreno terreno;
-  int cristais;
-  int ocupado;
-  int pos[2];
-  int base;//numero vai ser o time; 0 = nao tem time
-} Celula;
-
 /* No caso da ação, o tipo do operando é um inteiro indicando a direção,
    mas fique livre para fazer de forma diferente */
 
