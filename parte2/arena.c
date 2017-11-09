@@ -21,6 +21,7 @@ flag -lm (math.h precisa)
 #define TIMESTEP 50
 #define N_TIMES 2
 #define N_CRISTAIS 10
+#define RODADAS 1
 
 // macros para pegar uma celula da arena
 #define arenaG arena.grid[i][j]                  
@@ -549,4 +550,22 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			}	
 		}
 	}
+}
+
+INSTR diretriz[] = {
+  {SISM, 3},
+  {SISM, 1},
+  {SISM, 5},
+  {SISM, 0}
+};
+
+
+int main (int ac, char **av){
+	InsereArena();
+	for (int i=0; i<N_TIMES; i++){
+		InsereExercito(diretriz, i);
+	}
+	for (int i=0; i<RODADAS; i++)
+		Atualiza();
+	return 0;
 }
