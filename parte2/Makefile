@@ -1,8 +1,8 @@
-motor: clean motor.o maq.o pilha.o arena.o
-	gcc -g -o motor motor.o maq.o pilha.o arena.o
+motor: clean maq.o pilha.o arena.o
+	gcc -g -o motor maq.o pilha.o arena.o
 
-motor.o: motor.c
-	gcc -g -c motor.c
+#motor.o: motor.c
+#	gcc -g -c motor.c
 
 maq.o: maq.c
 	gcc -g -c maq.c
