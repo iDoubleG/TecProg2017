@@ -1,0 +1,67 @@
+Novo pensamento: Sistema de Jogo
+	Arena + Robos + Misc. components + Syscalls implementadas
+	Meta da fase 3: implementar as seguintes mudancas para alcancar o Sistema de Jogo
+
+Robos agora 
+	devem ter 	vida
+				nivel de ocupacao
+					A arena verificara se o robo esta ocupado quando escalonar(?) a maquina virtual
+					Sera dado por um contador:
+						0 = excecutar instrucao normalmente
+						!0 = instrucao nao eh excecutada
+						Objetivo: permitir syscalls q durem mais de um ciclo
+				"objeto para guardar a vizinhanca apresentada pelo sistema" - Discutir o que isso eh
+	podem ter	vel. por tipo de terreno
+				energia
+				sensores
+				no de armas
+	Nao devem impedir futuras melhoras quanto a sua sofisticacao
+	Nao mudar seus prorpio estado pela maquina virtual <- Arena o farah
+		Completar as syscalls e verificar se funcionam para que a arena altere o estado dos robos
+			Cada Syscall deve:	Verificar o tipo da chamada
+								Verificar se eh possivel realizar a chamada
+									caminhos obstruidos
+									saude debilitada impedindo acao
+									nao existencia de cristais
+								Excecutar a acao se possivel
+								Atualiza o contador de ocupacao do robo
+								Retorna
+	Apos a arena iniciar, comecar a excecutar os programas recebidos (se preparem pra ter q receber as instrucoes de algum antrada)
+		Uma instrucao pro vez (de novo, a ser discutido)
+		As maquinas prosseguirao iterativamente: havera um iterador aleatorio (perguntar monitoria)
+
+Arena agora
+	Deve 	Inicializar-se indicando o tipo de terreno p/ cada celula
+			Determinar as bases e marca-las
+			Distribuir os cristais aleatoriamente
+			Distribuir os robos como for conveniente
+			Ser representada graficamente
+
+Parte Grafica (brilha 4 anos de saga)
+	Programa em Python, referenciado nos programas anexos
+	"A comunicação com python será feito por um pipe, usando a função popen, descrita nos exemplos." (perguntar monitoria)
+	Visualizador(apres) recebe como entrada o que deve ser desenhado, referenciado nos programas anexos
+	$ sudo apt install pygame
+	comandos -> protocolo (a ser estendido) (perguntar monitoria)
+		fim : termina 
+		rob <arquivo>: registra um robo com o desenho indicado pelo arquivo (rob img.png)
+		id x_orig y_orig x_dest y_dest : id do robo, pos de origem e pos a ser alcancada
+
+	controle.c
+		Testa visualizacao
+		A ser substituido pelas syscalls (?)
+		Linhas importantes: FILE *display;
+								display = popen("./apres", "w");
+								fprintf(display, <COMANDO>);
+								fflush(display);
+								pclose(display);
+
+O que entragar:
+	syscalls terminadas e funcionando
+	alterar as syscalls que alteram o estado do s elementos do jogo para enviar um comando para apres
+	Inicializacao da arena como descrita
+	-> Alterar o visualizador para receber	cristais n i j (poe n cristais na posicao i,j)
+											base <imagem> i j (coloca uma nova base com desenho imagem na celula i,j)
+												Alt: desenhar ao definir o tipo de terreno
+											Toda alteracao de estado deve mudar a saida do visualizador
+	mudar apres.convert para se adequar a matriz (perguntar monitoria)
