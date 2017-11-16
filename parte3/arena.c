@@ -158,7 +158,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de cima
+			}
+			else printf("ERROU PRA CIMA LIXO\n");  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -176,7 +177,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de cima e direita
+			}
+			else printf("ERROU PRA DIREITA CIMA LIXO\n");  	 //borda de cima e direita
 			cel = buscaCel(aux1-1, aux2+1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -194,7 +196,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de baixo e direita
+			}
+			else printf("ERROU PRA DIREITA BAIXO LIXO\n");  	 //borda de baixo e direita
 			cel = buscaCel(aux1+1, aux2+1);
 	  	if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -212,7 +215,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de baixo
+			}
+			else printf("ERROU PRA BAIXO LIXO\n");  	 //borda de baixo
 			cel = buscaCel(aux1+2, aux2);
 	  	if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -230,7 +234,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de baixo e esquerda
+			}
+			else printf("ERROU PRA ESQUERDA BAIXO LIXO\n");  	 //borda de baixo e esquerda
 			cel = buscaCel(aux1+1, aux2-1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -248,7 +253,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  	 //borda de cima e esquerda
+			}
+			else printf("ERROU PRA ESQUERDA CIMA LIXO\n");  	 //borda de cima e esquerda
 			cel = buscaCel(aux1-1, aux2-1);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -559,10 +565,12 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 }
 
 INSTR diretriz[] = {
-  {SISM, 3},
+  {SISM, 0},
   {SISM, 1},
-  {SISM, 5},
-  {SISM, 0}
+  {SISM, 2},
+  {SISM, 3},
+  {SISM, 4},
+  {SISM, 5}
 };
 
 
