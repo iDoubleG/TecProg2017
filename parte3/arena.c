@@ -33,7 +33,7 @@ typedef struct {
 	int tempoCorrido;
 	int contadorExercitos;// O que isso faz, Puce??
 	Celula grid[GRID_TAM*2][GRID_TAM];
-	Celula base[N_TIMES];
+	Celula base[N_TIMES]; // this new
 } Arena;
 
 Arena arena;
@@ -62,7 +62,7 @@ void InsereArena() {
 				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
 				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
 				else {arenaG.terreno = RUELA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
-			arena.grid[i][j].cristais = 0;
+			arena.grid[i][j].cristais = 0; // this new
       		}
    		}
 	}
@@ -75,7 +75,7 @@ void InsereArena() {
 		random22 = rand() % (GRID_TAM - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.terreno != BASE) {// verificar veracidade
-			arenaGR2.cristais++;
+			arenaGR2.cristais++; // this changed1
 			cristaisBase--;
 		}
 	}
@@ -91,22 +91,22 @@ void InsereExercito (INSTR diretriz[CLOCK], int equipe) { //chamar a função co
 
 	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
 	    arenaGR1.terreno = BASE;
-	    arenaGR1.time = equipe;
-	    arenaGR1.pos[0] = random11;
-	    arenaGR1.pos[1] = random12;
-	    arena.base[equipe] = arenaGR1;
+	    arenaGR1.time = equipe;// this new
+	    arenaGR1.pos[0] = random11;// this new
+	    arenaGR1.pos[1] = random12;// this new
+	    arena.base[equipe] = arenaGR1;// this new
 		  break;
 	  }
     }
 
     // MODIFICAR PARA ROBOS NAO SPAWNAREM NA MESMA CELULA
 	for(int i = 0; i < TROPAS_POR_EXERCITO; i++){//cria máquinas e guarda cada uma em um lugar da lista de exercitos ativos
-    Maquina *tropa = cria_maquina(diretriz);
-    arena.exercitosAtivos[equipe][i] = tropa;
-    tropa->time = equipe;
-    tropa->pos[0] = random11;
-    tropa->pos[1] = random12;
-    tropa->patente = i;
+	    Maquina *tropa = cria_maquina(diretriz);
+	    arena.exercitosAtivos[equipe][i] = tropa;
+	    tropa->time = equipe;
+	    tropa->pos[0] = random11;
+	    tropa->pos[1] = random12;
+	    tropa->patente = i;
 	}
 	arenaGR1.ocupado = 1;
 }

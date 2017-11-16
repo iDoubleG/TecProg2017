@@ -64,7 +64,7 @@ typedef struct {
   int cristais;
   short int ocupado;
   int pos[2];
-  int time;//numero vai ser o time; 0 = nao tem time
+  int time;// 0 = nao tem time
 } Celula;
 
 /* No caso da ação, o tipo do operando é um inteiro indicando a direção,
