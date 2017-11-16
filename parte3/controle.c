@@ -6,7 +6,7 @@ typedef struct {
   int vi, vj;
 } Robot;
 
-FILE *display;
+FILE *display; // importante
 Robot rb[2];
 
 
@@ -41,7 +41,7 @@ void mostra(int ri) {
 /* Programa simples para mostrar como controlar a arena */
 int main() {
   int t; 						/* tempo */
-  display = popen("./apres", "w");
+  display = popen("./apres", "w"); // importante
 
   rb[0].pi =  6;
   rb[0].pj = 14;
@@ -54,12 +54,12 @@ int main() {
   rb[1].vj = -1;
 
   if (display == NULL) {
-	fprintf(stderr,"Não encontrei o programa de exibição\n");
+	fprintf(stderr,"Não encontrei o programa de exibição\n"); // importante
 	return 1;
   }
   
   /* cria dois robôs */
-  fprintf(display, "rob GILEAD_A.png\nrob GILEAD_B.png\n");
+  fprintf(display, "rob GILEAD_A.png\nrob GILEAD_B.png\n"); // importante
 
 
   for (t=0; t < 100; t++) {
@@ -67,8 +67,8 @@ int main() {
 	anda(1);
 	mostra(0);
 	mostra(1);
-	fflush(display);
+	fflush(display); // importante
   }
 
-  pclose(display);
+  pclose(display); // importante
 }
