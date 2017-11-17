@@ -12,11 +12,11 @@
 								Objetivo: permitir syscalls q durem mais de um ciclo
 						"objeto para guardar a vizinhanca apresentada pelo sistema" - Discutir o que isso eh
 			podem ter	vel. por tipo de terreno	(discutir o que ainda precisa ser feito)
-						energia
+	x					energia
 						sensores
 						no de armas
-			Nao devem impedir futuras melhoras quanto a sua sofisticacao
-			Nao mudar seus prorpio estado pela maquina virtual <- Arena o farah
+	v		Nao devem impedir futuras melhoras quanto a sua sofisticacao
+	v		Nao mudar seus prorpio estado pela maquina virtual <- Arena o farah
 				Completar as syscalls e verificar se funcionam para que a arena altere o estado dos robos
 					Cada Syscall deve:	Verificar o tipo da chamada
 										Verificar se eh possivel realizar a chamada
@@ -26,7 +26,7 @@
 										Excecutar a acao se possivel
 										Atualiza o contador de ocupacao do robo
 										Retorna
-			Apos a arena iniciar, comecar a excecutar os programas recebidos (se preparem pra ter q receber as instrucoes de algum antrada)
+	v		Apos a arena iniciar, comecar a excecutar os programas recebidos (se preparem pra ter q receber as instrucoes de algum antrada)
 				Uma instrucao por vez (de novo, a ser discutido)
 				As maquinas prosseguirao iterativamente: havera um iterador aleatorio (perguntar monitoria)
 

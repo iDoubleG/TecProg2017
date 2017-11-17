@@ -99,16 +99,24 @@ void InsereExercito (INSTR diretriz[CLOCK], int equipe) { //chamar a função co
 	  }
     }
 
-    // MODIFICAR PARA ROBOS NAO SPAWNAREM NA MESMA CELULA
-	for(int i = 0; i < TROPAS_POR_EXERCITO; i++){//cria máquinas e guarda cada uma em um lugar da lista de exercitos ativos
-	    Maquina *tropa = cria_maquina(diretriz);
-	    arena.exercitosAtivos[equipe][i] = tropa;
-	    tropa->time = equipe;
-	    tropa->pos[0] = random11;
-	    tropa->pos[1] = random12;
-	    tropa->patente = i;
+    int cont = 0;
+    int tropas = TROPAS_POR_EXERCITO;
+    while (tropas > 0) {
+		random21 = rand() % (GRID_TAM*2 - 2) + 1; //indices
+		random22 = rand() % (GRID_TAM - 2) + 1; //aleatorios
+
+		if (arenaGR2.terreno != NADA && arenaGR2.time == 0 && arenaGR2.ocupado == 0) {
+			Maquina *tropa = cria_maquina(diretriz);
+		    arena.exercitosAtivos[equipe][cont] = tropa;
+		    tropa->time = equipe;
+		    tropa->pos[0] = random21;
+		    tropa->pos[1] = random22;
+		    tropa->patente = cont;
+			arenaGR2.ocupado = 1;
+			cont++;
+			tropas--;
+		}
 	}
-	arenaGR1.ocupado = 1;
 }
 
 void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tropa a ser eliminada
