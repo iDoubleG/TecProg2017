@@ -16,7 +16,7 @@
 						sensores
 						no de armas
 	v		Nao devem impedir futuras melhoras quanto a sua sofisticacao
-	v		Nao mudar seus prorpio estado pela maquina virtual <- Arena o farah
+			Nao mudar seus prorpio estado pela maquina virtual <- Arena o farah
 				Completar as syscalls e verificar se funcionam para que a arena altere o estado dos robos
 					Cada Syscall deve:	Verificar o tipo da chamada
 										Verificar se eh possivel realizar a chamada
@@ -34,7 +34,7 @@
 	v		Deve 	Inicializar-se indicando o tipo de terreno p/ cada celula
 	v				Determinar as bases e marca-las
 	v				Distribuir os cristais aleatoriamente
-					Distribuir os robos como for conveniente
+	v				Distribuir os robos como for conveniente
 					Ser representada graficamente
 
 		Parte Grafica (brilha, 4 anos de saga)
@@ -59,7 +59,7 @@
 		O que entragar:
 			syscalls terminadas e funcionando
 			alterar as syscalls que alteram o estado dos elementos do jogo para enviar um comando para apres
-			Inicializacao da arena como descrita
+	v		Inicializacao da arena como descrita
 			-> Alterar o visualizador para receber	cristais n i j (poe n cristais na posicao i,j)
 													base <imagem> i j (coloca uma nova base com desenho imagem na celula i,j)
 														Alt: desenhar ao definir o tipo de terreno
