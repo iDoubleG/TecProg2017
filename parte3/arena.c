@@ -18,7 +18,7 @@ flag -lm (math.h precisa)
 
 #define GRID_TAM 10
 #define TROPAS_POR_EXERCITO 3
-#define CLOCK 50
+#define CLOCK 3
 #define N_TIMES 2
 #define N_CRISTAIS 10
 #define RODADAS 1
@@ -84,6 +84,7 @@ void InsereArena() {
 void InsereExercito (INSTR diretriz[CLOCK], int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
 
 	int random11, random12;
+	int random21, random22;
     while(1) {
 	  // designa as bases aleatoriamente a matriz
 	  random11 = rand() % (GRID_TAM*2 - 2) + 1; // indices
@@ -161,13 +162,14 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 		aux1 = m->pos[0];
 		aux2 = m->pos[1];
 		switch(j){
+
 			case 0:
 			if (aux1 < 2) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
 			}
-			else printf("ERROU PRA CIMA LIXO\n");  	 //borda de cima
+			else printf("ERROU PRA CIMA LIXO   %d  %d\n", j, op.val.n);  	 //borda de cima
 			cel = buscaCel(aux1-2, aux2);
 			if(cel.ocupado == 0) {
 			  cel.ocupado = m->patente;
@@ -179,7 +181,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  
+			}
+
 			case 1:
 			if (aux1 == 0 || aux2 == GRID_TAM) {
 			  return_value.val.n = 0;
@@ -198,7 +201,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  
+			}
+
 			case 2:
 			if (aux1 == 2*GRID_TAM || aux2 == GRID_TAM){
 			  return_value.val.n = 0;
@@ -217,7 +221,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  
+			}
+
 			case 3:
 			if (aux1 > (2*GRID_TAM - 2)) {
 			  return_value.val.n = 0;
@@ -236,7 +241,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  
+			}
+
 			case 4:
 			if (aux1 == 2*GRID_TAM || aux2 == 0) {
 			  return_value.val.n = 0;
@@ -255,7 +261,8 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 			  return_value.val.n = 0;
 			  return_value.t = NUM;
 			  return return_value;
-			}  
+			}
+
 			case 5:
 			if (aux1 == 0 || aux2 == 0) {
 			  return_value.val.n = 0;
@@ -573,7 +580,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 }
 
 INSTR diretriz[] = {
-  {SISM, 0},
+  /*{SISM, 0},*/
   {SISM, 1},
   {SISM, 2},
   {SISM, 3},
@@ -584,7 +591,7 @@ INSTR diretriz[] = {
 
 int main (int ac, char **av){
 	InsereArena();
-	for (int i=0; i<N_TIMES*TROPAS_POR_EXERCITO; i++){
+	for (int i=0; i<1; i++){
 		InsereExercito(diretriz, i);
 	}
 	for (int i=0; i<RODADAS; i++)

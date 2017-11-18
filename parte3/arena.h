@@ -3,7 +3,7 @@
 
 #include "instr.h"
 #include "maq.h"
-#define CLOCK 50
+#define CLOCK 3
 
 void InsereArena();
 void InsereExercito(INSTR diretriz[CLOCK], int equipe);
