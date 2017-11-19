@@ -82,12 +82,20 @@ void destroi_maquina(Maquina *m) {/*Quando morrer, destroi a maquina*/
 void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 												maquina*/
   int i;
-
+			// for (int k=0; k<5; k++)
+			// 	printf("%dNOT FUNNY\n", m->prog[k].op.val.n);//soh quero pontuar aqui que isso funciona
+	
   for (i = 0; i < timestep; i++) {
 	OpCode   opc = prg[ip].instr;
-	OPERANDO arg = prg[ip].op;
-
-	printf("op: %d, 	arg: %d, 	i: %d\n", prg[ip].op.val.n, arg.val.n, i);
+	OPERANDO arg;
+	arg.t = prg[i].op.t;
+	if (prg[i].op.t == NUM)
+		arg.val.n = prg[i].op.val.n;
+	else if (prg[i].op.t == VAR)
+		arg.val.v = prg[i].op.val.v;
+	else
+		arg.val.cel = prg[i].op.val.cel; 	
+	printf("op: %d, 	arg: %d, 	i: %d\n", prg[i].op.val.n, arg.val.n, i);
 
 	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
 

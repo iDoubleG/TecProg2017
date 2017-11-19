@@ -1,3 +1,4 @@
+		
 /*
 1 = normal
 2 = caminho
@@ -127,9 +128,12 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 			tropas--;
 		}
 	}
-	for (int i=0; i<5; i++){
-				printf("%dNOT FUNNY\n", arena.exercitosAtivos[equipe][i]->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
-			}
+	/*for (int i=0; i<2; i++){
+		for (int j=0; j<5; j++){
+			printf("%dNOT FUNNY\n", arena.exercitosAtivos[equipe][i]->prog[j].op.val.n);//soh quero pontuar aqui que isso funciona
+		}
+	}*/
+	
 }
 
 void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tropa a ser eliminada
@@ -137,9 +141,8 @@ void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tro
 }
 
 void Atualiza () {
-	for (int i=0; i<TROPAS_POR_EXERCITO; i++)
-		for (int j=0; j<N_TIMES; j++){
-			printf("tropa: %d, 	time: %d\n", i, j);
+	for (int i=0; i<N_TIMES; i++)
+		for (int j=0; j<TROPAS_POR_EXERCITO; j++){
 			exec_maquina(arena.exercitosAtivos[i][j], CLOCK);//CLOCK = 50
 		}
 	arena.tempoCorrido++;
@@ -595,12 +598,14 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 
 int main (int ac, char **av){
 	InsereArena();
-	for (int i=0; i<N_TIMES*TROPAS_POR_EXERCITO; i++){
+	for (int i=0; i<N_TIMES; i++){
 		InsereExercito(diretriz, i);
 	}
-	/*for (int i=0; i<5; i++){
-				printf("%dNOT FUNNY\n", tropa->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
-			}*/
+	/*for (int i=0; i<N_TIMES; i++){
+		for (int j=0; j<TROPAS_POR_EXERCITO; j++)
+			for (int k=0; k<5; k++)
+				printf("%dNOT FUNNY\n", arena.exercitosAtivos[i][j]->prog[k].op.val.n);//soh quero pontuar aqui que isso funciona
+	}*/
 	for (int i=0; i<RODADAS; i++)
 		Atualiza();
 	return 0;
