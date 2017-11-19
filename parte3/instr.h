@@ -31,7 +31,7 @@ typedef enum {
   FRE,/*Declaracao da variavel FRE, ver comentario em maq.c*/
   ATR,
   SISM,/* chamada de sistema */
-  SISA, 
+  SISA,
   SISR,
   SISD,
 } OpCode;
@@ -78,6 +78,17 @@ typedef struct {
 	Celula cel;
   } val;
 } OPERANDO;
+
+/* Informações dos arredores de cada robô */
+typedef struct {
+  Celula centro;
+  Celula acima;
+  Celula direita_cima;
+  Celula direita_baixo;
+  Celula baixo;
+  Celula esquerda_baixo;
+  Celula esquerda_cima;
+} Arredores;
 
 /* Instrução */
 typedef struct {

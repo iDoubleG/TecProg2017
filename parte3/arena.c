@@ -72,7 +72,7 @@ void InsereArena() {
 				else if (random1 < 45) {arenaG.terreno = AREIA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
 				else if (random1 < 55) {arenaG.terreno = ESTRADA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
 				else {arenaG.terreno = RUELA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
-			arena.grid[i][j].cristais = 0; // this new
+			arena.grid[i][j].cristais = 0;
       		}
    		}
 	}
@@ -90,6 +90,15 @@ void InsereArena() {
 		}
 	}
 }
+void Atualiza_arredores (Maquina *m, int centroi, int centroj){ // this new
+	m->arredores.centro = buscaCel(centroi, centroj);
+	m->arredores.acima = buscaCel(centroi-2, centroj);
+	m->arredores.esquerda_cima = buscaCel(centroi-1, centroj+1);
+	m->arredores.esquerda_baixo = buscaCel(centroi+1, centroj+1);
+	m->arredores.baixo = buscaCel(centroi+2, centroj);
+	m->arredores.direita_baixo = buscaCel(centroi+1, centroj-1);
+	m->arredores.direita_cima = buscaCel(centroi-1, centroj-1);
+}
 
 void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
 
@@ -102,10 +111,10 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 
 	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
 	    arenaGR1.terreno = BASE;
-	    arenaGR1.time = equipe;// this new
-	    arenaGR1.pos[0] = random11;// this new
-	    arenaGR1.pos[1] = random12;// this new
-	    arena.base[equipe] = arenaGR1;// this new
+	    arenaGR1.time = equipe;
+	    arenaGR1.pos[0] = random11;
+	    arenaGR1.pos[1] = random12;
+	    arena.base[equipe] = arenaGR1;
 		  break;
 	  }
     }
@@ -122,6 +131,7 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 		    tropa->pos[0] = random21;
 		    tropa->pos[1] = random22;
 		    tropa->patente = cont;
+				Atualiza_arredores(tropa, random21, random22); //this new
 			arenaGR2.ocupado = 1;
 			arena.exercitosAtivos[equipe][cont] = tropa;
 			cont++;
@@ -149,6 +159,10 @@ void Atualiza () {
 }
 
 Celula buscaCel (int i, int j){
+	if(i >= GRID_TAM*2 || j >= GRID_TAM || i < 0 || j < 0){ // this new
+		Celula nullcel; //uma célula padrão que representa o limite da grade
+		return nullcel;
+	}
 	return arena.grid[i][j];
 }
 
@@ -162,6 +176,7 @@ Maquina *buscaMaq (int patente, int i, int j){
     }
   }
 }
+
 
 OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 	OPERANDO return_value;
@@ -181,6 +196,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1-2, aux2);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1-2, aux2); // this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -201,6 +217,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1-1, aux2+1);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1-1, aux2+1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -221,6 +238,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1+1, aux2+1);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1+1, aux2+1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -241,6 +259,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1+2, aux2);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1+2, aux2); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -261,6 +280,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1+1, aux2-1);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1+1, aux2-1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -281,6 +301,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		cel = buscaCel(aux1-1, aux2-1);
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
+			Atualiza_arredores(m, aux1-1, aux2-1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;

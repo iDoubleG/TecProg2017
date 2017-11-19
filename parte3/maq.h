@@ -18,6 +18,7 @@ typedef struct {
   int patente;/*Qual a posicao dentro do time a qual a maquina pertence*/
   int vida;/*Contador de vida da Maquina, inicialmente com 1 de vida*/
   int matou;/*Contador de abates da Maquina*/
+  Arredores arredores;
 } Maquina;
 
 Maquina *cria_maquina(INSTR *p);
