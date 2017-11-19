@@ -116,14 +116,7 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 		random22 = rand() % (GRID_TAM - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.time == 0 && arenaGR2.ocupado == 0) {
-			for (int i=0; i<5; i++){
-				printf("%dhahaha\n", diretriz[i].op.val.n);
-			}
-
 			Maquina *tropa = cria_maquina(diretriz);
-			for (int i=0; i<5; i++){
-				printf("%dNOT FUNNY\n", tropa->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
-			}
 		    tropa->time = equipe;
 		    tropa->pos[0] = random21;
 		    tropa->pos[1] = random22;
@@ -601,9 +594,6 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 }
 
 int main (int ac, char **av){
-	for (int i; i<5; i++){
-		printf("%d", diretriz[i].op.val.n);
-	}
 	InsereArena();
 	for (int i=0; i<N_TIMES*TROPAS_POR_EXERCITO; i++){
 		InsereExercito(diretriz, i);
