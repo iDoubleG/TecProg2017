@@ -84,7 +84,7 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
   int i;
 			// for (int k=0; k<5; k++)
 			// 	printf("%dNOT FUNNY\n", m->prog[k].op.val.n);//soh quero pontuar aqui que isso funciona
-	
+
   for (i = 0; i < timestep; i++) {
 	OpCode   opc = prg[ip].instr;
 	OPERANDO arg;
@@ -94,10 +94,10 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	else if (prg[i].op.t == VAR)
 		arg.val.v = prg[i].op.val.v;
 	else
-		arg.val.cel = prg[i].op.val.cel; 	
-	printf("op: %d, 	arg: %d, 	i: %d\n", prg[i].op.val.n, arg.val.n, i);
+		arg.val.cel = prg[i].op.val.cel;
+	//printf("op: %d, 	arg: %d, 	i: %d\n", prg[i].op.val.n, arg.val.n, i);
 
-	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
+	//D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
 
 	switch (opc) {
 	  OPERANDO tmp;

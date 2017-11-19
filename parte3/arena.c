@@ -197,6 +197,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-2, aux2); // this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1-2, aux2); // this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -218,6 +219,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-1, aux2+1); //this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1-1, aux2+1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -239,6 +241,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+1, aux2+1); //this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1+1, aux2+1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -260,6 +263,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+2, aux2); //this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1+2, aux2); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -281,6 +285,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+1, aux2-1); //this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1+1, aux2-1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -302,6 +307,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-1, aux2-1); //this new
+			printf("%d %d %d %d %d\n", m->patente, aux1, aux2, aux1-1, aux2-1); //this new
 			return_value.val.n = 1;
 			return_value.t = NUM;
 			return return_value;
@@ -625,17 +631,13 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 //Primeiro algarismo indica o tipo de ação
 	int j = op.val.n % 10;
 //Segundo algarismo indica a direção da ação
-	Celula cel;
-	int aux1;
-	int aux2;
-//Variaveis de suporte
 	switch(i){
 		case 0:/*Mover. Retorna 1 se não há ninguém na célula
 						retorna 0 se o movimento não é possível*/
 		return_value = SisMov(j, m);
 		return return_value;
 
-		case 1://Atacar
+		case 1://Atacar.
 		return_value = SisAtc(j, m);
 		return return_value;
 
