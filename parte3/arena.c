@@ -17,8 +17,8 @@ flag -lm (math.h precisa)
 #include "instr.h"
 
 #define GRID_TAM 10
-#define TROPAS_POR_EXERCITO 3
-#define CLOCK 3
+#define TROPAS_POR_EXERCITO 2
+#define CLOCK 5
 #define N_TIMES 2
 #define N_CRISTAIS 10
 #define RODADAS 1
@@ -27,6 +27,15 @@ flag -lm (math.h precisa)
 #define arenaG arena.grid[i][j]                  
 #define arenaGR1 arena.grid[random11][random12]
 #define arenaGR2 arena.grid[random21][random22]
+
+INSTR diretriz[] = {
+  /*{SISM, 0},*/
+  {SISM, {NUM, 1}},
+  {SISM, {NUM, 2}},
+  {SISM, {NUM, 3}},
+  {SISM, {NUM, 4}},
+  {SISM, {NUM, 5}}
+};
 
 typedef struct {
 	Maquina *exercitosAtivos[256][TROPAS_POR_EXERCITO];
@@ -81,7 +90,7 @@ void InsereArena() {
 	}
 }
 
-void InsereExercito (INSTR diretriz[CLOCK], int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
+void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a número arena.contadorExercitos no lugar da int equipe
 
 	int random11, random12;
 	int random21, random22;
@@ -107,17 +116,27 @@ void InsereExercito (INSTR diretriz[CLOCK], int equipe) { //chamar a função co
 		random22 = rand() % (GRID_TAM - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.time == 0 && arenaGR2.ocupado == 0) {
+			for (int i=0; i<5; i++){
+				printf("%dhahaha\n", diretriz[i].op.val.n);
+			}
+
 			Maquina *tropa = cria_maquina(diretriz);
-		    arena.exercitosAtivos[equipe][cont] = tropa;
+			for (int i=0; i<5; i++){
+				printf("%dNOT FUNNY\n", tropa->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
+			}
 		    tropa->time = equipe;
 		    tropa->pos[0] = random21;
 		    tropa->pos[1] = random22;
 		    tropa->patente = cont;
 			arenaGR2.ocupado = 1;
+			arena.exercitosAtivos[equipe][cont] = tropa;
 			cont++;
 			tropas--;
 		}
 	}
+	for (int i=0; i<5; i++){
+				printf("%dNOT FUNNY\n", arena.exercitosAtivos[equipe][i]->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
+			}
 }
 
 void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tropa a ser eliminada
@@ -126,8 +145,10 @@ void RemoveExercito (Maquina *derrotado) {//poupa trabalho, enviar somente a tro
 
 void Atualiza () {
 	for (int i=0; i<TROPAS_POR_EXERCITO; i++)
-		for (int j=0; j<N_TIMES; j++)
+		for (int j=0; j<N_TIMES; j++){
+			printf("tropa: %d, 	time: %d\n", i, j);
 			exec_maquina(arena.exercitosAtivos[i][j], CLOCK);//CLOCK = 50
+		}
 	arena.tempoCorrido++;
 }
 
@@ -579,21 +600,17 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 	}
 }
 
-INSTR diretriz[] = {
-  /*{SISM, 0},*/
-  {SISM, 1},
-  {SISM, 2},
-  {SISM, 3},
-  {SISM, 4},
-  {SISM, 5}
-};
-
-
 int main (int ac, char **av){
+	for (int i; i<5; i++){
+		printf("%d", diretriz[i].op.val.n);
+	}
 	InsereArena();
-	for (int i=0; i<1; i++){
+	for (int i=0; i<N_TIMES*TROPAS_POR_EXERCITO; i++){
 		InsereExercito(diretriz, i);
 	}
+	/*for (int i=0; i<5; i++){
+				printf("%dNOT FUNNY\n", tropa->prog[i].op.val.n);//soh quero pontuar aqui que isso funciona
+			}*/
 	for (int i=0; i<RODADAS; i++)
 		Atualiza();
 	return 0;

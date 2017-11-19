@@ -39,13 +39,12 @@ typedef enum {
 /* Tipos dos operandos */
 typedef enum {
   NUM,
-  ACAO,
   VAR,
   CELULA
 } Tipo;
 
 /* Tipo de terreno */
-typedef enum {//this new
+typedef enum {
   RUELA,
   ESTRADA,
   AREIA,
@@ -71,11 +70,10 @@ typedef struct {
    mas fique livre para fazer de forma diferente */
 
 /* Operando */
-typedef struct {//this new
+typedef struct {
   Tipo t;
   union {
 	int n;
-	int ac;
 	int v;
 	Celula cel;
   } val;

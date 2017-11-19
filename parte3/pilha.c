@@ -28,8 +28,6 @@ void empilha(Pilha *p, OPERANDO op) {
     p->val[p->topo++].t = op.t;
     if (op.t == NUM)
       p->val[p->topo].val.n = op.val.n;
-    else if (op.t == ACAO)
-      p->val[p->topo].val.ac = op.val.ac;
     else if (op.t == VAR)
       p->val[p->topo].val.v = op.val.v;
     else

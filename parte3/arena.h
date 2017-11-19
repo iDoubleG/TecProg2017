@@ -3,10 +3,10 @@
 
 #include "instr.h"
 #include "maq.h"
-#define CLOCK 3
+//#define CLOCK 5
 
 void InsereArena();
-void InsereExercito(INSTR diretriz[CLOCK], int equipe);
+void InsereExercito(INSTR *diretriz, int equipe);
 void RemoveExercito(Maquina *derrotado);
 void Atualiza();
 Celula buscaCel(int i, int j);

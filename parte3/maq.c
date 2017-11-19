@@ -59,7 +59,7 @@ Maquina *cria_maquina(INSTR *p) {/*Inicializa a maquina e seus atributos*/
   m->ip = 0;
   m->rbp = 0;
   m->ncristais = 0;
-  m->vida = 1;
+  m->vida = 3;
   m->matou = 0;
   m->prog = p;
   return m;
@@ -85,9 +85,9 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 
   for (i = 0; i < timestep; i++) {
 	OpCode   opc = prg[ip].instr;
-	OPERANDO arg;
-	arg.val.n = prg[ip].op.val.n// a gente temq perguntar pro lana como resolve isso, mas o erro ta aqui
+	OPERANDO arg = prg[ip].op;
 
+	printf("op: %d, 	arg: %d, 	i: %d\n", prg[ip].op.val.n, arg.val.n, i);
 
 	D(printf("%3d: %-4.4s %d\n     ", ip, CODES[opc], arg));
 
@@ -336,8 +336,6 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 
 	  if (tmp.t == NUM)
 	    printf("%d\n", tmp.val.n);
-	  else if (tmp.t == ACAO)
-	  	printf("%d\n", tmp.val.ac);
 	  else if (tmp.t == VAR)
 	  	printf("%d\n", tmp.val.v);
 	  break;
@@ -392,29 +390,35 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	  break;
 	case SISM:/*System call, verifica o tipo do argumento e tenta mover a
 				maquina*/
-	  //if (arg.t == NUM){
+	  if (arg.t == NUM){
 	  	printf("%d\n", arg.val.n);
 	    tmp = Sistema(arg, m);
 	    if(tmp.val.n == 1) {
 	  	  switch(arg.val.n) {
 			  case 0:
 			  	maqi += -2;
+			  	break;
 			  case 1:
 				  maqi += -1;
 				  maqj += 1;
+				  break;
 			  case 2:
 				  maqi += 1;
 				  maqj += 1;
+				  break;
 			  case 3:
 				  maqi += 2;
+				  break;
 			  case 4:
 				  maqi += 1;
 				  maqj += -1;
+				  break;
 			  case 5:
 				  maqi += -1;
 				  maqj += -1;
+				  break;
 	  	  }
-		//}
+		}
 	  break;
 	case SISA:/*System call, verifica o tipo do argumento e tenta atacar algum
 				inimigo*/
