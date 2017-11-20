@@ -342,10 +342,10 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 				topo da pilha e desempilha o topo, nao funciona para celulas*/
 	  tmp = desempilha(pil);
 
-	  if (tmp.t == NUM)
+	  /*if (tmp.t == NUM)
 	    printf("%d\n", tmp.val.n);
 	  else if (tmp.t == VAR)
-	  	printf("%d\n", tmp.val.v);
+	  	printf("%d\n", tmp.val.v);*/
 	  break;
 	case ALC:/*Funcao auxiliar aloca frames na pilha de excecucao para
 				armazenar a variavel local*/
@@ -399,7 +399,7 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	case SISM:/*System call, verifica o tipo do argumento e tenta mover a
 				maquina*/
 	  if (arg.t == NUM){
-	  	printf("%d\n", arg.val.n);
+	  	//printf("%d\n", arg.val.n);
 	    tmp = Sistema(arg, m);
 	    if(tmp.val.n == 1) {
 	  	  switch(arg.val.n) {

@@ -7,15 +7,14 @@ from math import *
 pg.init()                                 # inicialização do sistema
 
 # altura e largura da arena, em células
-H, W = 10,100
+H, W = 20, 20
 
 TAMx, TAMy = 800, 600
 
 # largura da célula
 l = TAMx/(W*2)
 # altura da célula
-L = (2*TAMy)/(sqrt(3)*H*2)
-print(L)
+L = TAMy/(H*2)
 
 
 # cria a janela
@@ -35,7 +34,6 @@ def convert(i ,j):
     x = (1 + i%2)*l + 2*j*l
     y = 1.5*i*L + L
 
-    print(x, y)
     return x,y
 
 class Robô(pg.sprite.Sprite):
@@ -113,10 +111,15 @@ atu()
 # Leitura dos comandos pela entrada padrão ou de um arquivo
 for line in fileinput.input():
     r = line.split()
+    #print(len(r))
 
     # linha começando com 'fim', termina o programa
     if r[0] == 'fim':
         break
+
+    if r[0] == 'kill':
+
+        continue
 
     # linha começando com 'rob', inclui um robô,
     # o segundo argumento na linha é a imagem
@@ -124,21 +127,24 @@ for line in fileinput.input():
         robs.append(Robô(r[1]))
         continue
 
-    # linha de movimentação:
-    # robô, corrdenadas originais, coordenadas finais
-    ri, oi, oj, di, dj = list(map(int, r))
+    if r[0] == 'move':
+        # linha de movimentação:
+        # robô, corrdenadas originais, coordenadas finais
+        s = 
+        ri, oi, oj, di, dj = list(map(int, s))
 
-    # redesenha a célula original (apaga o robô)
-    if 0 <= oi  < W and 0 <= oj < H:
-        arena[oi][oj].draw()
-    # desenha o robô na célula de destino
-    if 0 <= di  < W and 0 <= dj < H and ri < len(robs):
-        robs[ri].draw(di,dj)
 
-    # tempo de espera para atualização, apenas para testes
-    pg.time.wait(100)
+        # redesenha a célula original (apaga o robô)
+        if 0 <= oi  < W and 0 <= oj < H:
+            arena[oi][oj].draw()
+        # desenha o robô na célula de destino
+        if 0 <= di  < W and 0 <= dj < H and ri < len(robs):
+            robs[ri].draw(di,dj)
 
-    atu()
+        # tempo de espera para atualização, apenas para testes
+        pg.time.wait(1000) 
+        atu()
+        continue
 
 pg.quit()
 # Local variables:
