@@ -1,8 +1,17 @@
-motor: clean maq.o pilha.o arena.o
-	gcc -std=c99 -g -o motor maq.o pilha.o arena.o
+motor: clean maq.o pilha.o arena.o SisMov.o SisAtq.o SisRec.o SisDep.o
+	gcc -std=c99 -g -o motor maq.o pilha.o arena.o SisMov.o SisAtq.o SisRec.o SisDep.o
 
-#motor.o: motor.c
-#	gcc -g -c motor.c
+SisAtq.o: SisAtq.c
+	gcc -std=c99 -g -c SisAtq.c
+
+SisRec.o: SisRec.c
+	gcc -std=c99 -g -c SisRec.c
+
+SisDep.o: SisDep.c
+	gcc -std=c99 -g -c SisDep.c
+
+SisMov.o: SisMov.c
+	gcc -std=c99 -g -c SisMov.c
 
 maq.o: maq.c
 	gcc -std=c99 -g -c maq.c

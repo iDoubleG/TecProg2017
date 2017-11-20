@@ -8,6 +8,7 @@
 void InsereArena();
 void InsereExercito(INSTR *diretriz, int equipe);
 void RemoveExercito(Maquina *derrotado);
+void Atualiza_arredores (Maquina *m, int centroi, int centroj);
 void Atualiza();
 Celula buscaCel(int i, int j);
 Maquina *buscaMaq(int patente, int i, int j);
