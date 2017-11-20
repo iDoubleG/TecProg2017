@@ -430,192 +430,30 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}
 	}
 }
-OPERANDO SisRec(int i, Maquina *m){ //modularização de Sistema, Recolher
+OPERANDO SisRec(Maquina *m){ //modularização de Sistema, Recolher
 	OPERANDO valor_de_retorno;
 	int aux1;
 	int aux2;
 	Celula cel;
 	aux1 = m->pos[0];
 	aux2 = m->pos[1];
-	switch(i){
-		case 0:
-		if (aux1 < 2) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de cima
-		cel = buscaCel(aux1-2, aux2);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-		case 1:
-		if (aux1 == 0 || aux2 == TAM_GRADE) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de cima e direita
-		cel = buscaCel(aux1-1, aux2+1);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-		case 2:
-		if (aux1 == 2*TAM_GRADE || aux2 == TAM_GRADE) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de baixo e direita
-		cel = buscaCel(aux1+1, aux2+1);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-		case 3:
-		if (aux1 > (2*TAM_GRADE - 2)) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de baixo
-		cel = buscaCel(aux1+2, aux2);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-		case 4:
-		if (aux1 == 2*TAM_GRADE || aux2 == 0) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de baixo e esquerda
-		cel = buscaCel(aux1+1, aux2-1);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-		case 5:
-		if (aux1 == 0 || aux2 == 0) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}  	 //borda de cima e esquerda
-		cel = buscaCel(aux1-1, aux2-1);
-		valor_de_retorno.val.n = cel.cristais;
-		valor_de_retorno.t = NUM;
-		return valor_de_retorno;
-	}
+	cel = buscaCel(aux1, aux2);
+	valor_de_retorno.val.n = cel.cristais;
+	valor_de_retorno.t = NUM;
+	return valor_de_retorno;
 }
-OPERANDO SisDep(int i, Maquina *m){ //modularização de Sistema, Depositar
+OPERANDO SisDep(Maquina *m){ //modularização de Sistema, Depositar
 	OPERANDO valor_de_retorno;
 	int aux1;
 	int aux2;
 	Celula cel;
 	aux1 = m->pos[0];
 	aux2 = m->pos[1];
-	switch(i){
-		if (aux1 < 2) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de cima
-		cel = buscaCel(aux1-2, aux2);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		case 1:
-		if (aux1 == 0 || aux2 == TAM_GRADE) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de cima e direita
-		cel = buscaCel(aux1-1, aux2+1);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		case 2:
-		if (aux1 == 2*TAM_GRADE || aux2 == TAM_GRADE) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de baixo e direita
-		cel = buscaCel(aux1+1, aux2+1);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		case 3:
-		if (aux1 > (2*TAM_GRADE - 2)) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de baixo
-		cel = buscaCel(aux1+2, aux2);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		case 4:
-		if (aux1 == 2*TAM_GRADE || aux2 == 0) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de baixo e esquerda
-		cel = buscaCel(aux1+1, aux2-1);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		case 5:
-		if (aux1 == 0 || aux2 == 0) {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		} //borda de cima e esquerda
-		cel = buscaCel(aux1-1, aux2-1);
-		if(cel.ocupado == 0) {
-			cel.cristais = m->ncristais;
-			valor_de_retorno.val.n = 1;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-		else {
-			valor_de_retorno.val.n = 0;
-			valor_de_retorno.t = NUM;
-			return valor_de_retorno;
-		}
-	}
+	cel = buscaCel(aux1, aux2);
+	cel.cristais += m->ncristais;
+	valor_de_retorno.val.n = 1;
+	valor_de_retorno.t = NUM;
+	return valor_de_retorno;
 }
 
 OPERANDO Sistema(OPERANDO op, Maquina *m) {
@@ -636,11 +474,11 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 		return valor_de_retorno;
 
 		case 2://Recolher. Verifica quantos cristais há na célula e retorna esse valor.
-		valor_de_retorno = SisRec(j, m);
+		valor_de_retorno = SisRec(m);
 		return valor_de_retorno;
 
 		case 3://Depositar. Verifica se há alguém na célula e deposita os cristais na máquina se não houver ninguém
-		valor_de_retorno = SisDep(j, m);
+		valor_de_retorno = SisDep(m);
 		return valor_de_retorno;
 	}
 }
