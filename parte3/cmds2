@@ -1,0 +1,20 @@
+rob footage/roberto1.png
+move 0 4 4 4 4
+move 0 4 4 3 5
+assassinato 0 3 5
+cristais 3 4 4
+cristais 7 3 5
+recolhe 5 3 5
+recolhe 4 4 4
+move 0 2 2 2 3
+base footage/base2.png 2 2
+move 0 2 3 2 5
+move 0 2 3 2 5
+fim
+
+
+
+assassinato robo_morreu x_morreu y_morreu
+cristais numero_cristais x_cristal y_cristal
+recolhe numero_cristais x_cristal y_cristal
+base footage/base{numeroDoTime}.png x_base y_base
