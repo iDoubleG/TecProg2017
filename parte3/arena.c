@@ -22,7 +22,7 @@ flag -lm (math.h precisa)
 #define TROPAS_POR_EXERCITO 1
 #define RELOGIO 5
 #define N_TIMES 2
-#define N_CRISTAIS 5
+#define N_CRISTAIS 2
 #define RODADAS 1
 
 // macros para pegar uma celula da arena

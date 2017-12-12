@@ -12,13 +12,13 @@ H, W = 20, 20
 TAMx, TAMy = 800, 600
 
 # largura da célula
-l = TAMx/W
+l = TAMx/W*4/3
 # altura da célula
 L = TAMy/H
 
 
 # cria a janela
-scr = pg.display.set_mode((TAMx+ceil(l)+1,TAMy*2))
+scr = pg.display.set_mode((TAMx+ceil(l/4),TAMy+ceil(L/2)))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
 
