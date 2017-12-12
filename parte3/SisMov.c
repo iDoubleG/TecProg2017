@@ -23,7 +23,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-2, aux2); // this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1-2, aux2); // this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1-2, aux2); // this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
@@ -45,7 +45,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-1, aux2+1); //this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1-1, aux2+1); //this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1-1, aux2+1); //this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
@@ -67,7 +67,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+1, aux2+1); //this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1+1, aux2+1); //this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1+1, aux2+1); //this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
@@ -89,7 +89,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+2, aux2); //this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1+2, aux2); //this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1+2, aux2); //this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
@@ -111,7 +111,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1+1, aux2-1); //this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1+1, aux2-1); //this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1+1, aux2-1); //this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
@@ -133,7 +133,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		if(cel.ocupado == 0) {
 			cel.ocupado = m->patente;
 			Atualiza_arredores(m, aux1-1, aux2-1); //this new
-			printf("move %d %d %d %d %d\n", m->patente, aux1, aux2, aux1-1, aux2-1); //this new
+			printf("move %d %d %d %d %d\n", m->time, aux1, aux2, aux1-1, aux2-1); //this new
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;
