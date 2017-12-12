@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "chamSis.h"
 #include "arena.h"
-#define TAM_GRADE 10
+#define TAM_GRADE 20
 
 OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 	OPERANDO valor_de_retorno;
@@ -80,7 +80,7 @@ OPERANDO SisMov(int i, Maquina *m){ //modularização de Sistema, Mover
 		}
 
 		case 3:
-		if (aux2 > (TAM_GRADE - 2)) {
+		if (aux2 > (TAM_GRADE*2 - 2)) {
 			valor_de_retorno.val.n = 0;
 			valor_de_retorno.t = NUM;
 			return valor_de_retorno;

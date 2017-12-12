@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "chamSis.h"
 #include "arena.h"
-#define TAM_GRADE 10
+#define TAM_GRADE 20
 
 OPERANDO SisRec(Maquina *m){ //modularização de Sistema, Recolher
 	OPERANDO valor_de_retorno;

@@ -18,7 +18,7 @@ flag -lm (math.h precisa)
 #include "instr.h"
 #include "chamSis.h"
 
-#define TAM_GRADE 10
+#define TAM_GRADE 20
 #define TROPAS_POR_EXERCITO 1
 #define RELOGIO 5
 #define N_TIMES 2
@@ -121,7 +121,7 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 	    arena.base[equipe] = arenaGR1;
 	    //base footage/base{numero_da_equipe}.png base_x base_y -- para apres.py
 	    printf("base footage/base%d.png %d %d\n", equipe, aleat11, aleat12);
-		  break;
+		break;
 	  }
     }
 
@@ -142,10 +142,10 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 			arena.exercitos_ativos[equipe][cont] = tropa;
 			cont++;
 			tropas--;
+			printf("rob footage/roberto%d.png\n", equipe); //this new puce
+			printf("move %d %d %d %d %d\n", equipe, aleat21, aleat22, aleat21, aleat22); // this new puce
 		}
 	}
-	printf("rob footage/roberto%d.png\n", equipe); //this new puce
-	printf("move %d %d %d %d %d\n", equipe, aleat21, aleat22, aleat21, aleat22); // this new puce
 }
 
 void RemoveExercito (Maquina *derrotado) {/*Funcao remove as tropas eliminadas*/
@@ -208,6 +208,7 @@ OPERANDO Sistema(OPERANDO op, Maquina *m) {
 }
 
 int main (int ac, char **av){
+	printf("tamanho %d %d\n", TAM_GRADE, TAM_GRADE*2);
 	InsereArena();
 	for (int i=0; i<N_TIMES; i++){
 		InsereExercito(diretriz, i);

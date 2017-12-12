@@ -6,26 +6,7 @@ from math import *
 
 pg.init()                                 # inicialização do sistema
 
-# altura e largura da arena, em células
-H, W = 20, 20
-
-TAMx, TAMy = 800, 600
-
-# largura da célula
-l = TAMx/W*4/3
-# altura da célula
-L = TAMy/H
-
-
-# cria a janela
-scr = pg.display.set_mode((TAMx+ceil(l/4),TAMy+ceil(L/2)))
-# só para simplificar, atualização da imagem
-atu = pg.display.update
-
-
-# pinta o fundo da janela
-scr.fill((0,200,0))
-atu()
+    
 
 def convert(i ,j):
     """
@@ -157,12 +138,6 @@ class cell:
 
 # Construção da matriz que representa a arena
 arena = []
-for i in range(H):
-    arena.append([])
-    for j in range(W*2):
-        arena[i].append(cell(i,j))
-        if not((i % 2 == 0 and j % 2 != 0) or (j % 2 == 0 and i % 2 != 0)):
-            arena[i][j].draw()
 
 # lista dos robôs definidos
 robs = []
@@ -170,14 +145,46 @@ robs = []
 # lista de bases
 bases = []
 
-# atualiza a janela
-atu()
-
 cont = 0
 
 # Leitura dos comandos pela entrada padrão ou de um arquivo
 for line in fileinput.input():
     r = line.split()
+
+    if r[0] == 'tamanho':
+        r = r[1:]
+        tamx, tamy = list(map(int, r))
+
+        # altura e largura da arena, em células
+        H, W = tamy, tamx
+
+        TAMx, TAMy = 600, 600
+
+        # largura da célula
+        l = TAMx/W*4/3
+        # altura da célula
+        L = TAMy/H
+
+
+        # cria a janela
+        scr = pg.display.set_mode((TAMx+ceil(l/4),TAMy+ceil(L/2)))
+        # só para simplificar, atualização da imagem
+        atu = pg.display.update
+
+
+        # pinta o fundo da janela
+        scr.fill((0,200,0))
+        atu()
+
+        for i in range(tamx):
+            arena.append([])
+            for j in range(tamy*2):
+                arena[i].append(cell(i,j))
+                if not((i % 2 == 0 and j % 2 != 0) or (j % 2 == 0 and i % 2 != 0)):
+                    arena[i][j].draw()
+
+        atu()
+        continue
 
     # linha começando com 'fim', termina o programa
     if r[0] == 'fim':
