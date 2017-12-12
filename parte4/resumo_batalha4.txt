@@ -1,0 +1,21 @@
+Fazer a linguagem:
+	Linguagem deve ter:	comandos ususais de controle(if + loop)
+						definição e chamadas de função
+						variaveis
+						comandos especiais para o jogo (discutir isso)
+	Falta na linguagem do gubi:	tratamento de erros
+							variaveis especais
+							comandos especificos
+								varredura da arena
+							else
+	Fazer adaptações necessarias para atender as definições da maquina virtual
+	Entender as pág.	22
+						23
+	Exemplo: compilador+programa principal+sistema de excecução
+	Versão jogo: tudo separado
+		compilador <- vetor de instruções
+		compilador -> codigo compilado
+		maquina virtual excecuta o vetor sempre que reuisitada.
+		tratamento de erros da excecução
+		tratamento de erros da compilação
+		inicializaçõa dos robos <- arquivo com codigo fonte
