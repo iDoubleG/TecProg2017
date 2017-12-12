@@ -12,9 +12,9 @@ H, W = 20, 20
 TAMx, TAMy = 800, 600
 
 # largura da célula
-l = TAMx/(W*2)
+l = TAMx/W
 # altura da célula
-L = TAMy/(H*2)
+L = TAMy/H
 
 
 # cria a janela
@@ -31,8 +31,8 @@ def convert(i ,j):
     """
     Converte a coordenada (i,j) para a posição em pixels na janela
     """
-    x = (1 + i%2)*l + 2*j*l
-    y = 1.5*i*L + L
+    x = 0.5*l + 0.75*i*l
+    y = 0.5*L + 0.5*j*L
 
     return x,y
 
@@ -139,12 +139,12 @@ class cell:
 
         # Vértices do hexágono
         s.pontos = (
-            (s.cx,   s.cy-L),
-            (s.cx+l, s.cy-L/2),
-            (s.cx+l, s.cy+L/2),
-            (s.cx,   s.cy+L),
-            (s.cx-l, s.cy+L/2),
-            (s.cx-l, s.cy-L/2),
+            (s.cx-l*0.5 , s.cy),
+            (s.cx-l*0.25, s.cy-L/2),
+            (s.cx+l*0.25, s.cy-L/2),
+            (s.cx+l*0.5 , s.cy),
+            (s.cx+l*0.25, s.cy+L/2),
+            (s.cx-l*0.25, s.cy+L/2),
             )
         
     def draw(s) :
@@ -161,7 +161,8 @@ for i in range(H):
     arena.append([])
     for j in range(W):
         arena[i].append(cell(i,j))
-        arena[i][j].draw()
+        if not((i % 2 == 0 and j % 2 != 0) or (j % 2 == 0 and i % 2 != 0)):
+            arena[i][j].draw()
 
 # lista dos robôs definidos
 robs = []
@@ -256,11 +257,9 @@ for line in fileinput.input():
 
 
         # redesenha a célula original (apaga o robô)
-        if 0 <= oi  < W and 0 <= oj < H:
-            arena[oi][oj].draw()
+        arena[oi][oj].draw()
         # desenha o robô na célula de destino
-        if 0 <= di  < W and 0 <= dj < H and ri < len(robs):
-            robs[ri].draw(di,dj)
+        robs[ri].draw(di,dj)
 
         # tempo de espera para atualização, apenas para testes
         pg.time.wait(1000) 

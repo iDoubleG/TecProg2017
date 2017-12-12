@@ -59,8 +59,8 @@ void InsereArena() {
 	srand(time(NULL));
 
 	// Criacao da arena
-	for (int i = 0; i < (TAM_GRADE * 2); i++) {
-		for (int j = 0; j < TAM_GRADE; j++) {
+	for (int i = 0; i < TAM_GRADE; i++) {
+		for (int j = 0; j < (TAM_GRADE*2); j++) {
 			// designa "NADA" as casas da matriz que nao serao utilizadas (por ser hexagonal)
       		if ((i % 2 == 0 && j % 2 != 0) || (j % 2 == 0 && i % 2 != 0))
       			{arenaG.terreno = NADA; arenaG.pos[0] = i; arenaG.pos[1] = j;}
@@ -82,8 +82,8 @@ void InsereArena() {
 
 	// designa os cristais aleatoriamente a matriz
 	while (cristaisBase > 0) {
-		aleat21 = rand() % (TAM_GRADE*2 - 2) + 1; //indices
-		aleat22 = rand() % (TAM_GRADE - 2) + 1; //aleatorios
+		aleat21 = rand() % (TAM_GRADE - 2) + 1; //indices
+		aleat22 = rand() % (TAM_GRADE*2 - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA) {
 			arenaGR2.cristais++;
@@ -110,8 +110,8 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 	int aleat21, aleat22;
     while(1) {
 	  // designa as bases aleatoriamente a matriz
-	  aleat11 = rand() % (TAM_GRADE*2 - 2) + 1; // indices
-	  aleat12 = rand() % (TAM_GRADE - 2) + 1; // aleatorios
+	  aleat11 = rand() % (TAM_GRADE - 2) + 1; // indices
+	  aleat12 = rand() % (TAM_GRADE*2 - 2) + 1; // aleatorios
 
 	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE && arenaGR1.terreno != CRISTAL) {
 	    arenaGR1.terreno = BASE;
@@ -128,8 +128,8 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
     int cont = 0;
     int tropas = TROPAS_POR_EXERCITO;
     while (tropas > 0) {
-		aleat21 = rand() % (TAM_GRADE*2 - 2) + 1; //indices
-		aleat22 = rand() % (TAM_GRADE - 2) + 1; //aleatorios
+		aleat21 = rand() % (TAM_GRADE - 2) + 1; //indices
+		aleat22 = rand() % (TAM_GRADE*2 - 2) + 1; //aleatorios
 
 		if (arenaGR2.terreno != NADA && arenaGR2.time == 0 && arenaGR2.ocupado == 0) {
 			Maquina *tropa = cria_maquina(diretriz);
@@ -161,7 +161,7 @@ void Atualiza () {
 }
 
 Celula buscaCel (int i, int j){
-	if(i >= TAM_GRADE*2 || j >= TAM_GRADE || i < 0 || j < 0){
+	if(i >= TAM_GRADE || j >= TAM_GRADE*2 || i < 0 || j < 0){
 		Celula cel_nula; /*Celula que representa os limites, bordas da arena*/
 		return cel_nula;
 	}
