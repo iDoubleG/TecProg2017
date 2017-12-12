@@ -1,5 +1,7 @@
 motor: clean maq.o pilha.o arena.o SisMov.o SisAtq.o SisRec.o SisDep.o
 	gcc -std=c99 -g -o motor maq.o pilha.o arena.o SisMov.o SisAtq.o SisRec.o SisDep.o
+	./motor > a.o
+	python3 apres.py < a.o
 
 SisAtq.o: SisAtq.c
 	gcc -std=c99 -g -c SisAtq.c
