@@ -21,6 +21,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de cima
 		cel = buscaCel(aux1-2, aux2);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1-2, aux2);
 			destroi_maquina(buscaMaq(m->patente, aux1-2, aux2));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
@@ -39,6 +41,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de cima e direita
 		cel = buscaCel(aux1-1, aux2+1);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1-2, aux2+1);
 			destroi_maquina(buscaMaq(m->patente, aux1-1, aux2+1));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
@@ -57,6 +61,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de baixo e direita
 		cel = buscaCel(aux1+1, aux2+1);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1+2, aux2+1);
 			destroi_maquina(buscaMaq(m->patente, aux1+1, aux2+1));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
@@ -75,6 +81,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de baixo
 		cel = buscaCel(aux1+2, aux2);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1+2, aux2);
 			destroi_maquina(buscaMaq(m->patente, aux1+2, aux2));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
@@ -93,6 +101,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de baixo e esquerda
 		cel = buscaCel(aux1+1, aux2-1);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1+1, aux2-1);
 			destroi_maquina(buscaMaq(m->patente, aux1+1, aux2-1));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;
@@ -111,6 +121,8 @@ OPERANDO SisAtq(int i, Maquina *m){ //modularização de Sistema, Ataque
 		}  	 //borda de cima e esquerda
 		cel = buscaCel(aux1-1, aux2-1);
 		if(cel.ocupado > 0) {
+			//assassinato robo_morreu x_morreu y_morreu -- para apres.py
+			printf("assassinato %d %d %d\n", m->patente, aux1-1, aux2-1);
 			destroi_maquina(buscaMaq(m->patente, aux1-1, aux2-1));
 			valor_de_retorno.val.n = 1;
 			valor_de_retorno.t = NUM;

@@ -51,7 +51,8 @@ typedef enum {
   AGUA,
   ARMADILHA,
   BASE,
-  NADA
+  NADA,
+  CRISTAL
 } Terreno;
 
 /* Alternativamente, Celula pode ser implementada como um vetor de ints

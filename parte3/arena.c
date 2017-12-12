@@ -21,8 +21,8 @@ flag -lm (math.h precisa)
 #define TAM_GRADE 10
 #define TROPAS_POR_EXERCITO 1
 #define RELOGIO 5
-#define N_TIMES 1
-#define N_CRISTAIS 10
+#define N_TIMES 2
+#define N_CRISTAIS 5
 #define RODADAS 1
 
 // macros para pegar uma celula da arena
@@ -87,7 +87,10 @@ void InsereArena() {
 
 		if (arenaGR2.terreno != NADA) {
 			arenaGR2.cristais++;
+			arenaGR2.terreno = CRISTAL;
 			cristaisBase--;
+			//cristais numero_cristais x_cristal y_cristal -- para apres.py
+			printf("cristais %d %d %d\n", arenaGR2.cristais, aleat21, aleat22);
 		}
 	}
 }
@@ -110,12 +113,14 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 	  aleat11 = rand() % (TAM_GRADE*2 - 2) + 1; // indices
 	  aleat12 = rand() % (TAM_GRADE - 2) + 1; // aleatorios
 
-	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE) {
+	  if (arenaGR1.terreno != NADA && arenaGR1.terreno != BASE && arenaGR1.terreno != CRISTAL) {
 	    arenaGR1.terreno = BASE;
 	    arenaGR1.time = equipe;
 	    arenaGR1.pos[0] = aleat11;
 	    arenaGR1.pos[1] = aleat12;
 	    arena.base[equipe] = arenaGR1;
+	    //base footage/base{numero_da_equipe}.png base_x base_y -- para apres.py
+	    printf("base footage/base%d.png %d %d\n", equipe, aleat11, aleat12);
 		  break;
 	  }
     }
