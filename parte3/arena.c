@@ -139,6 +139,8 @@ void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a n�
 			tropas--;
 		}
 	}
+	printf("rob footage/roberto%d.png\n", equipe); //this new puce
+	printf("move %d %d %d %d %d\n", equipe, aleat21, aleat22, aleat21, aleat22); // this new puce
 }
 
 void RemoveExercito (Maquina *derrotado) {/*Funcao remove as tropas eliminadas*/
@@ -207,5 +209,6 @@ int main (int ac, char **av){
 	}
 	for (int i=0; i<RODADAS; i++)
 		Atualiza();
+	printf("fim\n");
 	return 0;
 }

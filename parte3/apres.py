@@ -183,9 +183,9 @@ for line in fileinput.input():
         break
 
     if r[0] == 'base':
+        bases.append(Base(r[1]))
         r = r[2:]
         oi, oj = list(map(int, r))
-        bases.append(Robô(r[1]))
 
         # desenha o robô na célula de destino
         if 0 <= oi  < W and 0 <= oj < H:

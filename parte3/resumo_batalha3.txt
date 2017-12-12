@@ -61,7 +61,7 @@
 			alterar as syscalls que alteram o estado dos elementos do jogo para enviar um comando para apres
 	v		Inicializacao da arena como descrita
 	v		-> Alterar o visualizador para receber	cristais n i j (poe n cristais na posicao i,j)
-	x												base <imagem> i j (coloca uma nova base com desenho imagem na celula i,j)
+	v												base <imagem> i j (coloca uma nova base com desenho imagem na celula i,j)
 	v													Alt: desenhar ao definir o tipo de terreno
 													Toda alteracao de estado deve mudar a saida do visualizador
 	v		mudar apres.convert para se adequar a matriz (perguntar monitoria)
