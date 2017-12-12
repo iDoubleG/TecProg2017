@@ -400,22 +400,22 @@ void exec_maquina(Maquina *m, int timestep) {/*Excecuta as instrucoes de uma
 	      if(tmp.val.n == 1) {
 	  	    switch(arg.val.n) {
 			  case 0:
-			  	maqi += -2;
+			  	maqj += -2;
 			  	break;
 			  case 1:
-				  maqi += -1;
-				  maqj += 1;
+				  maqj += -1;
+				  maqi += 1;
 				  break;
 			  case 2:
 				  maqi += 1;
 				  maqj += 1;
 				  break;
 			  case 3:
-				  maqi += 2;
+				  maqj += 2;
 				  break;
 			  case 4:
-				  maqi += 1;
-				  maqj += -1;
+				  maqj += 1;
+				  maqi += -1;
 				  break;
 			  case 5:
 				  maqi += -1;

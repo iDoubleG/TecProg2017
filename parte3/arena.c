@@ -43,7 +43,7 @@ typedef struct {
 	Maquina *exercitos_ativos[256][TROPAS_POR_EXERCITO];
 	int tempo_corrido;
 	int contador_exercitos;
-	Celula grade[TAM_GRADE*2][TAM_GRADE];
+	Celula grade[TAM_GRADE][TAM_GRADE*2];
 	Celula base[N_TIMES];
 } Arena;
 
@@ -96,12 +96,12 @@ void InsereArena() {
 }
 void Atualiza_arredores (Maquina *m, int centroi, int centroj){
 	m->arredores.centro = buscaCel(centroi, centroj);
-	m->arredores.acima = buscaCel(centroi-2, centroj);
-	m->arredores.esquerda_cima = buscaCel(centroi-1, centroj+1);
-	m->arredores.esquerda_baixo = buscaCel(centroi+1, centroj+1);
-	m->arredores.baixo = buscaCel(centroi+2, centroj);
-	m->arredores.direita_baixo = buscaCel(centroi+1, centroj-1);
-	m->arredores.direita_cima = buscaCel(centroi-1, centroj-1);
+	m->arredores.acima = buscaCel(centroi, centroj-2);
+	m->arredores.esquerda_cima = buscaCel(centroi-1, centroj-1);
+	m->arredores.esquerda_baixo = buscaCel(centroi-1, centroj+1);
+	m->arredores.baixo = buscaCel(centroi, centroj+2);
+	m->arredores.direita_baixo = buscaCel(centroi+1, centroj+1);
+	m->arredores.direita_cima = buscaCel(centroi+1, centroj-1);
 }
 
 void InsereExercito (INSTR *diretriz, int equipe) { //chamar a função com a número arena.contador_exercitos no lugar da int equipe

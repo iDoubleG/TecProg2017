@@ -18,7 +18,7 @@ L = TAMy/H
 
 
 # cria a janela
-scr = pg.display.set_mode((TAMx+ceil(l)+1,TAMy))
+scr = pg.display.set_mode((TAMx+ceil(l)+1,TAMy*2))
 # só para simplificar, atualização da imagem
 atu = pg.display.update
 
@@ -159,7 +159,7 @@ class cell:
 arena = []
 for i in range(H):
     arena.append([])
-    for j in range(W):
+    for j in range(W*2):
         arena[i].append(cell(i,j))
         if not((i % 2 == 0 and j % 2 != 0) or (j % 2 == 0 and i % 2 != 0)):
             arena[i][j].draw()
